@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+<<<<<<< HEAD
   Flex,
   Heading,
   Image,
@@ -47,6 +48,62 @@ const IndexPage = () => {
             </HStack>
           </Flex>
 
+=======
+  Container,
+  Flex,
+  Heading,
+  HStack,
+  SimpleGrid,
+  Text,
+  VStack,
+  Icon,
+  Divider,
+  Link,
+  Stack,
+  
+} from '@chakra-ui/react';
+import Head from 'next/head';
+import React from 'react';
+import { GetServerSideProps } from 'next';
+
+import NFTCard, { NFT } from '../components/NFTCard';
+import { getLastListedNFTs } from '../services/nftService';
+
+import dynamic from 'next/dynamic';
+import { CheckCircleIcon, StarIcon } from '@chakra-ui/icons';
+
+const Connect = dynamic(() => import('../components/Connect').then(m => m.Connect), {
+  ssr: false,
+});
+
+
+
+interface IndexProps {
+  nfts: NFT[];
+}
+
+const IndexPage: React.FC<IndexProps> = ({ nfts }) => {
+  return (
+    <>
+      <Head>
+        <title>NFT Marketplace</title>
+      </Head>
+      
+      <Box as="main" minH="100vh">
+        <Container maxW="container.xl">
+          {/* Header */}
+          <Flex as="header" justifyContent="space-between" py="4" align="center">
+            <Heading as="h1" size="xl">
+              NFT Marketplace
+            </Heading>
+            <HStack spacing="5">
+              <Connect />
+              
+              <Button colorScheme="teal">Create NFT</Button>
+            </HStack>
+          </Flex>
+
+>>>>>>> f4b47af (get nft list service graphql)
           {/* Main Banner */}
           <VStack my="10" spacing="5" textAlign="center">
             <Heading as="h2" size="3xl">
@@ -60,6 +117,7 @@ const IndexPage = () => {
             </Button>
           </VStack>
 
+<<<<<<< HEAD
           {/* Featured NFTs Gallery */}
           <Box my="10">
             <Heading as="h3" size="lg" mb="4">
@@ -69,6 +127,19 @@ const IndexPage = () => {
               {/* Map through your NFTs data here to display NFT cards */}
             </SimpleGrid>
           </Box>
+=======
+          
+          <VStack my="10" spacing="5">
+            <Heading as="h2" size="xl">
+              Featured NFTs
+            </Heading>
+            <SimpleGrid columns={{ base: 1, md: 3 }} spacing="4">
+              {nfts.map((nft) => (
+                <NFTCard key={nft.nftId} nft={nft} />
+              ))}
+            </SimpleGrid>
+          </VStack>
+>>>>>>> f4b47af (get nft list service graphql)
 
           {/* How It Works Section */}
           <VStack my="10" spacing="5">
@@ -158,4 +229,13 @@ const IndexPage = () => {
   );
 };
 
+<<<<<<< HEAD
+=======
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const nfts = await getLastListedNFTs();
+  return { props: { nfts } };
+};
+
+>>>>>>> f4b47af (get nft list service graphql)
 export default IndexPage;
