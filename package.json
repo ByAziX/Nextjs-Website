@@ -7,14 +7,21 @@
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.2",
-    "@chakra-ui/react": "^2.2.1",
+    "@chakra-ui/react": "^2.8.2",
     "@chakra-ui/theme-tools": "^2.0.2",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.9.0",
+    "@polkadot/extension-dapp": "^0.46.6",
+    "@walletconnect/legacy-utils": "^2.0.0",
+    "@walletconnect/sign-client": "^2.11.0",
+    "clsx": "^2.1.0",
     "framer-motion": "^6.3.0",
     "next": "latest",
+    "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "ternoa-connect": "^0.1.1",
+    "ternoa-js": "^1.6.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
