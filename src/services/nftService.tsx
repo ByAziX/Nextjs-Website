@@ -18,6 +18,7 @@ export interface NFTResponse {
   };
 }
 
+// Initialisez l'instance TernoaIPFS avec l'URL de la passerelle IPFS et la clé API
 const ipfsClient = new TernoaIPFS(new URL(process.env.IPFS_GATEWAY), process.env.IPFS_API_KEY);
 
 // Fonction pour récupérer les métadonnées IPFS
@@ -34,10 +35,11 @@ const fetchIPFSMetadata = async (offchainData: string) => {
   }
 };
 
-export const getLastListedNFTs = async (): Promise<NFTEntity[]> => {
+// Fonction pour récupérer la liste des NFTs avec pagination
+export const getLastListedNFTs = async (limit = 10, offset = 0): Promise<{ nfts: NFTEntity[], totalCount: number }> => {
   const gqlQuery = gql`
-    {
-      nftEntities(first: 100, offset: 0, orderBy: [TIMESTAMP_CREATED_DESC]) {
+    query GetNFTs($first: Int!, $offset: Int!) {
+      nftEntities(first: $first, offset: $offset, orderBy: [TIMESTAMP_CREATED_DESC]) {
         totalCount
         nodes {
           nftId
@@ -51,19 +53,24 @@ export const getLastListedNFTs = async (): Promise<NFTEntity[]> => {
   `;
 
   try {
-    const response = await request<NFTResponse>(process.env.GRAPHQL_ENDPOINT, gqlQuery);
+    const response = await request<NFTResponse>(process.env.GRAPHQL_ENDPOINT, gqlQuery, {
+      first: limit,
+      offset: offset
+    });
+
     const nfts = await Promise.all(response.nftEntities.nodes.map(async (nft) => {
       const { metadata, mediaUrl } = await fetchIPFSMetadata(nft.offchainData);
       return { ...nft, metadata, mediaUrl };
     }));
 
-    return nfts;
+    return { nfts, totalCount: response.nftEntities.totalCount };
   } catch (error) {
     console.error('Error fetching NFTs:', error);
     throw new Error('Error fetching NFTs');
   }
 };
 
+// Fonction pour récupérer les données d'un NFT spécifique par son ID
 export const getNftData = async (id: string): Promise<NFTEntity> => {
   const gqlQuery = gql`
     {
