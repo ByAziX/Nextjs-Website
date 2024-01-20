@@ -36,7 +36,9 @@ const NavBar: React.FC = () => {
       <Spacer />
 
       <HStack spacing={4}>
-        <Button colorScheme="teal" variant="ghost">Explore</Button>
+      <NextLink href="/_explore" passHref>
+            <Button colorScheme="teal" variant="ghost">Explore</Button>
+        </NextLink>
         <Button colorScheme="teal" variant="ghost">Create</Button>
         <Button colorScheme="teal" variant="ghost">My Collection</Button>
 

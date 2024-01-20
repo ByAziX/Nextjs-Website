@@ -4,21 +4,9 @@ import {
   Button, Heading, Text, VStack
 } from '@chakra-ui/react';
 import Head from 'next/head';
-import { GetServerSideProps } from 'next';
+import NextLink from 'next/link';
 
-import NFTList from '../components/NFTList';
-import { getLastListedNFTs } from '../services/nftService';
-import { NFT } from '../components/NFTCard';
-
-const DEFAULT_LIMIT = 9; // Nombre de NFTs par page
-
-interface IndexProps {
-  nfts: NFT[];
-  totalCount: number; // Total des NFTs disponibles
-  currentPage: number;
-}
-
-const IndexPage: React.FC<IndexProps> = ({ nfts, totalCount, currentPage }) => {
+const IndexPage: React.FC = () => {
   return (
     <>
       <Head>
@@ -31,21 +19,16 @@ const IndexPage: React.FC<IndexProps> = ({ nfts, totalCount, currentPage }) => {
         <Text fontSize="xl">
           NFT Marketplace is the premier destination for NFTs on the blockchain. Explore the marketplace for the best digital art and collectibles.
         </Text>
+        <NextLink href="/_explore" passHref>
         <Button size="lg" colorScheme="orange" px="8">
           Explore Now
         </Button>
+        </NextLink>
       </VStack>
 
-      <NFTList nfts={nfts} totalCount={totalCount} currentPage={currentPage} />
     </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const page = parseInt(context.query.page as string) || 1;
-  const offset = (page - 1) * DEFAULT_LIMIT;
-  const { nfts, totalCount } = await getLastListedNFTs(DEFAULT_LIMIT, offset);
-  return { props: { nfts, totalCount, currentPage: page } };
-};
 
 export default IndexPage;
