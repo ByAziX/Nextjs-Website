@@ -19,7 +19,7 @@ const IndexPage: React.FC = () => {
         <Text fontSize="xl">
           NFT Marketplace is the premier destination for NFTs on the blockchain. Explore the marketplace for the best digital art and collectibles.
         </Text>
-        <NextLink href="/_explore" passHref>
+        <NextLink href="/explore" passHref>
         <Button size="lg" colorScheme="orange" px="8">
           Explore Now
         </Button>
