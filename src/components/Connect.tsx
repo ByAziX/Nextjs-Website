@@ -1,10 +1,20 @@
-import { useState } from 'react';
-import {
-  web3Accounts,
-  web3Enable
-} from '@polkadot/extension-dapp';
-import clsx from 'clsx';
+import React, { useState } from 'react';
+import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
+import {
+  Button,
+  Text,
+  Spinner,
+  useToast,
+  Flex,
+  VStack,
+  HStack,
+  Avatar,
+  Tooltip,
+  IconButton,
+  useClipboard
+} from '@chakra-ui/react';
+import { CopyIcon, CloseIcon } from '@chakra-ui/icons';
 
 type TExtensionState = {
   data?: {
@@ -13,7 +23,7 @@ type TExtensionState = {
   }
   loading: boolean
   error: null | Error
-}
+};
 
 const initialExtensionState: TExtensionState = {
   data: undefined,
@@ -23,63 +33,98 @@ const initialExtensionState: TExtensionState = {
 
 export const Connect = () => {
   const [state, setState] = useState(initialExtensionState);
+  const toast = useToast();
+  const { hasCopied, onCopy } = useClipboard(state.data?.defaultAccount.address || '');
 
-  const handleConnect = () => {
+  const handleConnect = async () => {
     setState({ ...initialExtensionState, loading: true });
 
-    web3Enable('polkadot-extension-dapp-example')
-      .then((injectedExtensions) => {
-        if (!injectedExtensions.length) {
-          return Promise.reject(new Error('NO_INJECTED_EXTENSIONS'));
-        }
+    try {
+      const injectedExtensions = await web3Enable('polkadot-extension-dapp-example');
+      if (!injectedExtensions.length) {
+        throw new Error('NO_INJECTED_EXTENSIONS');
+      }
 
-        return web3Accounts();
-      })
-      .then((accounts) => {
-        if (!accounts.length) {
-          return Promise.reject(new Error('NO_ACCOUNTS'));
-        }
+      const accounts = await web3Accounts();
+      if (!accounts.length) {
+        throw new Error('NO_ACCOUNTS');
+      }
 
-        setState({
-          error: null,
-          loading: false,
-          data: {
-            accounts: accounts,
-            defaultAccount: accounts[ 0 ],
-          }
-        });
-      })
-      .catch((error) => {
-        console.error('Error with connect', error);
-        setState({ error, loading: false, data: undefined });
+      setState({
+        error: null,
+        loading: false,
+        data: {
+          accounts,
+          defaultAccount: accounts[0],
+        }
       });
+    } catch (error) {
+      console.error('Error with connect', error);
+      setState({ error, loading: false, data: undefined });
+      toast({
+        title: 'Connection error',
+        description: error.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
-  if (state.error) {
+  const handleDisconnect = () => {
+    setState(initialExtensionState);
+  };
+
+  if (state.loading) {
     return (
-      <span className="text-red-500 font-bold tracking-tight">
-        Error with connect: {state.error.message}
-      </span>
+      <Flex justify="center" align="center">
+        <Spinner size="xl" color="orange.500" />
+      </Flex>
     );
   }
 
-  return state.data
-    ? <>Hello, {beatifyAddress(state.data.defaultAccount.address)}!</>
-    : <button
-      disabled={state.loading}
-      className={
-        clsx(
-          'inline-block rounded-lg px-4 py-1.5',
-          'text-base font-semibold leading-7 text-white shadow-sm ring-1 ring-amber-600',
-          state.loading ? 'cursor-not-allowed bg-amber-400' : 'bg-amber-500 hover:bg-amber-600 hover:ring-amber-600'
-        )
-      }
-      onClick={handleConnect}
-    >
-      {state.loading ? 'Connecting...' : 'Connect'}
-    </button>;
+  if (state.error) {
+    return (
+      <Text color="red.500" fontWeight="bold">
+        Error with connect: {state.error.message}
+      </Text>
+    );
+  }
+
+  return (
+    <VStack spacing={4}>
+      {state.data ? (
+        <HStack spacing={4}>
+          <Avatar name={beautifyAddress(state.data.defaultAccount.address)} />
+          <VStack align="start">
+            <Text fontSize="lg">Hello, {beautifyAddress(state.data.defaultAccount.address)}</Text>
+            <Tooltip label={state.data.defaultAccount.address} aria-label="Full address">
+              <Text fontSize="sm" color="gray.500">Full Address</Text>
+            </Tooltip>
+          </VStack>
+          <IconButton
+            aria-label="Copy address"
+            icon={<CopyIcon />}
+            onClick={onCopy}
+            colorScheme="blue"
+          />
+          {hasCopied && <Text color="green.500">Copied!</Text>}
+          <IconButton
+            aria-label="Disconnect"
+            icon={<CloseIcon />}
+            onClick={handleDisconnect}
+            colorScheme="red"
+          />
+        </HStack>
+      ) : (
+        <Button colorScheme="orange" onClick={handleConnect}>Connect</Button>
+      )}
+    </VStack>
+  );
 };
 
-function beatifyAddress(address: string) {
-  return `${address.slice(0, 3)}...${address.slice(-3)}`;
+function beautifyAddress(address: string) {
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
+
+export default Connect;
