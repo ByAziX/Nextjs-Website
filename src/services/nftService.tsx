@@ -15,7 +15,7 @@ export interface NFTResponse {
     nodes: NFTEntity[];
   };
 }
-
+ 
 const graphqlAPI = 'https://indexer-alphanet.ternoa.dev/';
 
 export const getLastListedNFTs = async (): Promise<NFTEntity[]> => {
