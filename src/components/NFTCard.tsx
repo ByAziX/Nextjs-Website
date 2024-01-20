@@ -6,7 +6,7 @@
     useColorModeValue,
   } from '@chakra-ui/react';
   import React from 'react';
-  import Link from 'next/link';
+  import NextLink from 'next/link';
 
   export interface NFT {
     nftId: string;
@@ -34,7 +34,7 @@
     const textColor = useColorModeValue('gray.600', 'white');
 
     return (
-      <Link href={`/nfts/${nft.nftId}`} passHref>
+      <NextLink href={`/nfts/${nft.nftId}`} passHref>
         <Box borderWidth="1px" borderRadius="lg" overflow="hidden" bg={bgColor} color={textColor} shadow="sm">
           {nft.mediaUrl && <Image src={nft.mediaUrl} alt={`Image for NFT ${nft.nftId}`} />}
           
@@ -49,7 +49,7 @@
             <Text fontSize="sm">Offchain Data: {nft.offchainData}</Text>
           </Box>
         </Box>
-      </Link>
+      </NextLink>
 
     );
   };

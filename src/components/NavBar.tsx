@@ -5,7 +5,7 @@ import {
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { DarkModeSwitch } from './DarkModeSwitch';
 import dynamic from 'next/dynamic';
-import NextLink from 'next/link'; // Importation du composant Link de Next.js
+import NextLink from 'next/link';
 
 const Connect = dynamic(() => import('./Connect').then(m => m.Connect), {
   ssr: false,
@@ -27,11 +27,9 @@ const NavBar: React.FC = () => {
     >
       <Box>
         <NextLink href="/" passHref>
-          <Link>
             <Text fontSize="xl" fontWeight="bold" cursor="pointer">
               NFT Marketplace
             </Text>
-          </Link>
         </NextLink>
       </Box>
 
