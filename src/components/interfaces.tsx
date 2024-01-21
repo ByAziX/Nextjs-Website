@@ -1,9 +1,35 @@
 interface AuctionEntity {
-    // Define properties of AuctionEntity
+
   }
-  
-  interface CollectionEntity {
-    // Define properties of CollectionEntity
+
+export interface metadata {
+  title: string;
+  description: string;
+  image: string;
+  properties: {
+    media: {
+      hash: string;
+      type: string;
+      size: number;
+    }
+  }
+}
+
+export interface CollectionEntity {
+
+    collectionId: string;
+    owner: string | null;
+    offchainData: string;
+    nfts: string[];
+    nbNfts: number;
+    limit: number | null;
+    hasReachedLimit: boolean;
+    isClosed: boolean;
+    timestampCreated: Date;
+    timestampBurned: Date | null;
+    timestampClosed: Date | null;
+    timestampLimited: Date | null;
+
   }
   
   interface RentEntity {
@@ -24,6 +50,7 @@ export interface NFTResponse {
       nodes: NFTEntity[];
     };
   }
+
 
 export interface NFTEntity {
     nftId: string;
@@ -59,38 +86,15 @@ export interface NFTEntity {
     timestampRented: Date | null;
     timestampSecretAdded: Date | null;
     timestampConvertedToCapsule: Date | null;
-    metadata?: any;
+    metadata?: metadata;
     mediaUrl: string;
   }
   
 
 export interface NFTListProps {
-    nfts: NFT[];
+    nfts: NFTEntity[];
     totalCount: number;
     currentPage: number;
   }
 
-  export interface NFT {
-    nftId: string;
-    owner: string;
-    creator: string;
-    collectionId: string;
-    offchainData: string;
-    priceRounded: number;
-    typeOfListing: string;
-    isListed: boolean;
-    metadata?: {
-      title?: string;
-      description?: string;
-      image?: string;
-      properties?: {
-        media?: {
-          hash: string;
-          type: string;
-          size: number;
-        };
-      };
-    };
-    mediaUrl: string;
-  }
   

@@ -2,28 +2,8 @@
 import { request, gql } from 'graphql-request';
 import { TernoaIPFS } from 'ternoa-js';
 import redisClient from './redisClient'; // Importation du client Redis
+import {NFTEntity, NFTResponse } from '../components/interfaces'
 
-export interface NFTEntity {
-  nftId: string;
-  owner: string;
-  creator: string;
-  collectionId: string;
-  offchainData: string;
-  priceRounded: number;
-  typeOfListing: string;
-  isListed: boolean;
-  metadata?: any;
-  mediaUrl: string;
-}
-
-export interface NFTResponse {
-  nftEntities: {
-    totalCount: number;
-    nodes: NFTEntity[];
-  };
-}
-
-// Initialisez l'instance TernoaIPFS avec l'URL de la passerelle IPFS et la clé API
 const ipfsClient = new TernoaIPFS(new URL(process.env.IPFS_GATEWAY), process.env.IPFS_API_KEY);
 
 // Fonction pour récupérer les métadonnées IPFS
@@ -74,6 +54,9 @@ export const getLastListedNFTs = async (limit = 10, offset = 0): Promise<{ nfts:
           priceRounded
           typeOfListing
           isListed
+          collection {
+            collectionId
+          }
         }
       }
     }
@@ -119,6 +102,9 @@ export const getNftData = async (id: string): Promise<NFTEntity> => {
         priceRounded
         typeOfListing
         isListed
+        collection {
+          collectionId
+        }
       }
     }
   `;
@@ -169,6 +155,21 @@ export const getNFTfromOwner = async (owner: string, limit = 10, offset = 0): Pr
         priceRounded
         typeOfListing
         isListed
+        collection {
+          collectionId
+          owner
+          offchainData
+          nfts
+          nbNfts
+          limit
+          hasReachedLimit
+          isClosed
+          timestampCreated
+          timestampBurned
+          timestampClosed
+          timestampLimited
+
+        }
       }
     }
   }

@@ -2,32 +2,10 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Box, Image, Text, Skeleton, VStack, useColorModeValue, Tooltip, Link } from '@chakra-ui/react';
 import NextLink from 'next/link';
+import {NFTEntity} from './interfaces'
 
-export interface NFT {
-  nftId: string;
-  owner: string;
-  creator: string;
-  collectionId: string;
-  offchainData: string;
-  priceRounded: number;
-  typeOfListing: string;
-  isListed: boolean;
-  metadata?: {
-    title?: string;
-    description?: string;
-    image?: string;
-    properties?: {
-      media?: {
-        hash: string;
-        type: string;
-        size: number;
-      };
-    };
-  };
-  mediaUrl: string;
-}
 
-const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
+const NFTCard: React.FC<{ nft: NFTEntity }> = ({ nft }) => {
   const bgColor = useColorModeValue('white', 'gray.800');
   const textColor = useColorModeValue('gray.600', 'white');
   const router = useRouter();
@@ -82,10 +60,10 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
           </Link>
         </Tooltip>
 
-        {nft.collectionId && (
+        {nft.collection.collectionId && (
           <Tooltip label="NFT collection id" aria-label="NFT collection">
-            <Link as={NextLink} href={`/collection/${nft.collectionId}`} passHref>
-                Collection N°{nft.collectionId}
+            <Link as={NextLink} href={`/collection/${nft.collection.collectionId}`} passHref>
+                Collection N°{nft.collection.collectionId}
             </Link>
           </Tooltip>
         )}

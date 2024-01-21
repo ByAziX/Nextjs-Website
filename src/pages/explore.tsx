@@ -4,17 +4,11 @@ import { GetServerSideProps } from 'next';
 
 import NFTList from '../components/NFTList';
 import { getLastListedNFTs } from '../services/nftService';
-import { NFT } from '../components/NFTCard';
+import {NFTListProps} from '../components/interfaces'
 
 const DEFAULT_LIMIT = 24; 
 
-interface IndexProps {
-  nfts: NFT[];
-  totalCount: number; 
-  currentPage: number;
-}
-
-const IndexPage: React.FC<IndexProps> = ({ nfts, totalCount, currentPage }) => {
+const IndexPage: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) => {
   return (
     <>
       <NFTList nfts={nfts} totalCount={totalCount} currentPage={currentPage} />
