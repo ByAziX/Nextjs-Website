@@ -29,6 +29,9 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
+  // Adjust the card size and content for a mini-card
+  const miniSize = '200px'; // example mini size, adjust as needed
+
   const handleBoxClick = () => {
     router.push(`/nfts/${nft.nftId}`);
   };
@@ -43,58 +46,46 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
 
   const handleImageError = () => {
     setIsLoading(false);
-    // Gestion d'erreur supplémentaire si nécessaire
   };
-  console.log(nft.mediaUrl);
+
   return (
     <Box
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
-      width="50%"
-      height="50%"
       bg={bgColor}
       color={textColor}
       shadow="md"
       onClick={handleBoxClick}
       cursor="pointer"
-      _hover={{ shadow: "lg", transform: "scale(1.05)" }}
+      _hover={{ shadow: "lg", transform: "scale(1.02)" }} 
+      width={miniSize} 
+      height="auto" 
     >
-      <Box position="relative" height="200px" overflow="hidden">
-        {isLoading && (
-          <Skeleton height="200px" />
-        )}
+      <Box position="relative" height={miniSize} overflow="hidden">
+        {isLoading && <Skeleton height={miniSize} />}
         <Image
           src={nft.mediaUrl}
           alt={`Image for NFT ${nft.nftId}`}
+          fallbackSrc='https://via.placeholder.com/100'
           onLoad={handleImageLoaded}
           onError={handleImageError}
           style={{ display: isLoading ? 'none' : 'block', width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </Box>
-      <VStack p="6" align="left" spacing={2}>
+      <VStack p="2" align="left" spacing={1}>
         {nft.metadata?.title && (
-          <Text fontSize="lg" fontWeight="bold">
+          <Text fontSize="md" fontWeight="bold">
             {nft.metadata.title}
           </Text>
         )}
-        {nft.metadata?.description && (
-          <Text fontSize="sm">
-            {nft.metadata.description}
-          </Text>
-        )}
+        {/* Removed description for brevity in a mini-card */}
         <Tooltip label="Unique identifier for NFT" aria-label="NFT ID">
-          <Text fontSize="sm" fontWeight="bold">
+          <Text fontSize="xs" fontWeight="bold"> 
             ID: {nft.nftId}
           </Text>
         </Tooltip>
-        <Link onClick={stopPropagation} href={`/profile/${nft.owner}`}>
-          <Text fontSize="sm">Owner: {nft.owner}</Text>
-        </Link>
-        <Text fontSize="sm">Creator: {nft.creator}</Text>
-        <Text fontSize="sm">Collection: {nft.collectionId}</Text>
-        <Text fontSize="sm">Offchain Data: {nft.offchainData}</Text>
-        <Text fontSize="sm">Media URL: {nft.mediaUrl}</Text>
+        {/* Removed owner, creator, collection, and offchain data for brevity */}
       </VStack>
     </Box>
   );

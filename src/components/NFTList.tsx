@@ -12,7 +12,7 @@ export interface NFTListProps {
   currentPage: number;
 }
 
-const DEFAULT_LIMIT = 9;
+const DEFAULT_LIMIT = 24;
 
 const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) => {
   const router = useRouter();
@@ -29,7 +29,7 @@ const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) => {
   return (
     <VStack spacing={5} my="10">
       <Heading as="h2" size="xl">Featured NFTs</Heading>
-      <SimpleGrid columns={{ base: 1, md: 3 }} spacing="4">
+      <SimpleGrid columns={{ base: 1, md: 6 }} spacing="4">
         {nfts.map((nft) => <NFTCard key={nft.nftId} nft={nft} />)}
       </SimpleGrid>
       <Pagination 
