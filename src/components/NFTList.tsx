@@ -12,7 +12,7 @@ export interface NFTListProps {
   currentPage: number;
 }
 
-const DEFAULT_LIMIT = 10;
+const DEFAULT_LIMIT = 21;
 
 const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) => {
   const router = useRouter();

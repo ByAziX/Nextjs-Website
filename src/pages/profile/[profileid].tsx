@@ -6,9 +6,6 @@ import NFTList, { NFTListProps } from '../../components/NFTList';
 import { getNFTfromOwner } from '../../services/nftService';
 
 const ProfilePage: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) => {
-  const router = useRouter();
-  const { profileid } = router.query;
-
   return (
     <div>
       <NFTList nfts={nfts} totalCount={totalCount} currentPage={currentPage} />
@@ -19,7 +16,7 @@ const ProfilePage: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query, params } = context;
   const page = parseInt(query.page as string) || 1;
-  const limit = 9; 
+  const limit = 21; 
   const offset = (page - 1) * limit;
 
   try {
