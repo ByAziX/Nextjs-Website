@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Box, Image, Text, Skeleton, VStack, useColorModeValue, Tooltip, Link, Badge } from '@chakra-ui/react';
+import { Box, Image, Text, Skeleton, VStack, useColorModeValue, Tooltip, Link, Badge, Heading } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import {NFTEntity} from './interfaces'
 
@@ -8,7 +8,7 @@ import {NFTEntity} from './interfaces'
 const NFTCard: React.FC<{ nft: NFTEntity }> = ({ nft }) => {
   const bgColor = useColorModeValue('light.bg', 'dark.bg');
   const textColor = useColorModeValue('light.text', 'dark.text');
-  
+
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -25,6 +25,9 @@ const NFTCard: React.FC<{ nft: NFTEntity }> = ({ nft }) => {
   };
 
   return (
+    
+  
+
     <Box
       borderWidth="1px"
       borderRadius="lg"

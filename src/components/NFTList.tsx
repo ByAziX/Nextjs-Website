@@ -25,7 +25,9 @@ const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) => {
 
   return (
     <VStack spacing={5} my="10">
-      <Heading as="h2" size="xl">Featured NFTs</Heading>
+      <Heading as="h2" size="xl">
+    {`Explore ${totalCount} NFTs`}
+  </Heading>
       <SimpleGrid columns={{ base: 1, md: 6 }} spacing="4">
         {nfts.map((nft) => <NFTCard key={nft.nftId} nft={nft} />)}
       </SimpleGrid>
