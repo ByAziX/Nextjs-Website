@@ -27,11 +27,22 @@ const ipfsClient = new TernoaIPFS(new URL(process.env.IPFS_GATEWAY), process.env
 const fetchIPFSMetadata = async (offchainData: string): Promise<{ metadata: any; mediaUrl: string }> => {
   const defaultImageHash = "QmNsqeXwMtpfpHTtCJHMMWp924HrGL85AnVjEEmDHyUkBg";
 
+  const cacheKey = `ipfs:${offchainData}`;
+  const cachedData = await redisClient.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
+
   try {
     const metadata = await ipfsClient.getFile(offchainData) as any;
     const mediaUrl = metadata?.properties?.media && metadata.properties.media.hash 
       ? `${process.env.IPFS_GATEWAY}/ipfs/${metadata.properties.media.hash}`
       : `${process.env.IPFS_GATEWAY}/ipfs/${defaultImageHash}`;
+
+    await redisClient.set(cacheKey, JSON.stringify({ metadata, mediaUrl }), { EX: 3600 });
+    
     return { metadata, mediaUrl };
   } catch (error) {
     console.error(`Error fetching metadata from IPFS:`, error);

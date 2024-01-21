@@ -51,6 +51,8 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
+      width="50%"
+      height="50%"
       bg={bgColor}
       color={textColor}
       shadow="md"
@@ -58,9 +60,9 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
       cursor="pointer"
       _hover={{ shadow: "lg", transform: "scale(1.05)" }}
     >
-      <Box position="relative" height="400px" overflow="hidden">
+      <Box position="relative" height="200px" overflow="hidden">
         {isLoading && (
-          <Skeleton height="400px" />
+          <Skeleton height="200px" />
         )}
         <Image
           src={nft.mediaUrl}
