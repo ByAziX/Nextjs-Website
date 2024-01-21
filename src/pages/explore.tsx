@@ -4,7 +4,7 @@ import { GetServerSideProps } from 'next';
 
 import NFTList from '../components/NFTList';
 import { getLastListedNFTs } from '../services/nftService';
-import { NFT } from '../components/NFTCard';
+import { NFT } from '../components/interfaces';
 
 const DEFAULT_LIMIT = 24; 
 

@@ -3,14 +3,11 @@ import React from 'react';
 import { SimpleGrid, VStack, Heading } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
-import NFTCard, { NFT } from './NFTCard';
+import NFTCard from './NFTCard';
+import { NFTListProps } from './interfaces';
 import Pagination from './Pagination';
 
-export interface NFTListProps {
-  nfts: NFT[];
-  totalCount: number;
-  currentPage: number;
-}
+
 
 const DEFAULT_LIMIT = 24;
 

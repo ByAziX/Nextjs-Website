@@ -3,30 +3,8 @@ import { useRouter } from 'next/router';
 import { Box, Image, Text, Skeleton, VStack, useColorModeValue, Tooltip } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { Link } from '@chakra-ui/react';
+import { NFT } from './interfaces';
 
-export interface NFT {
-  nftId: string;
-  owner: string;
-  creator: string;
-  collectionId: string;
-  offchainData: string;
-  priceRounded: number;
-  typeOfListing: string;
-  isListed: boolean;
-  metadata?: {
-    title?: string;
-    description?: string;
-    image?: string;
-    properties?: {
-      media?: {
-        hash: string;
-        type: string;
-        size: number;
-      };
-    };
-  };
-  mediaUrl: string;
-}
 
 const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
   const bgColor = useColorModeValue('white', 'gray.800');
