@@ -20,33 +20,13 @@ import {
 import { getNftData } from '../../services/nftService';
 import NextLink from 'next/link';
 
-export interface NFT {
-  nftId: string;
-  owner: string;
-  creator: string;
-  collectionId: string;
-  offchainData: string;
-  priceRounded: number;
-  metadata?: {
-    title?: string;
-    description?: string;
-    image?: string;
-    properties?: {
-      media?: {
-        hash: string;
-        type: string;
-        size: number;
-      }
-    };
-  };
-  mediaUrl: string;
-}
+
 
 const NFTDetailsPage = ({ nft }) => {
-  const bg = useColorModeValue('white', 'gray.800');
-  const text = useColorModeValue('gray.600', 'white');
+  const bgColor = useColorModeValue('light.bg', 'dark.bg');
+  const textColor = useColorModeValue('light.text', 'dark.text');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
-  console.log(nft);
+
   if (!nft) {
     // If the NFT data is not yet loaded, display a loading state
     return (
@@ -62,7 +42,7 @@ const NFTDetailsPage = ({ nft }) => {
   // Once the NFT data is loaded, display the content
   return (
     <Container maxW="container.xl" py={10}>
-      <Flex direction={{ base: 'column', md: 'row' }} bg={bg} boxShadow="xl" rounded="lg" overflow="hidden">
+      <Flex direction={{ base: 'column', md: 'row' }} bg={bgColor} boxShadow="xl" rounded="lg" overflow="hidden">
         <Box>
           <Image
             src={nft.mediaUrl || 'https://via.placeholder.com/400'}
@@ -77,17 +57,23 @@ const NFTDetailsPage = ({ nft }) => {
             <Heading as="h1" size="2xl">
               {nft.metadata?.title || 'NFT Title'}
             </Heading>
-            <Text fontSize="lg" color={text}>
+            <Text fontSize="lg" color={textColor}>
               {nft.metadata?.description || 'NFT Description'}
             </Text>
+            {nft.collection && (
             <Badge colorScheme="purple" p={2}>
-              Collection #{nft.collectionId}
+              <Link as={NextLink} href={`../collection/${nft.collection.collectionId}`} passHref>
+              Collection #{nft.collection.collectionId}
+              </Link>
             </Badge>
+            )}
             <Divider borderColor={borderColor} my={4} />
+            {nft.collection && !nft.collection.isClosed && (
             <Alert status="warning" borderRadius="md">
               <AlertIcon />
               This NFT belongs to a collection not closed!
             </Alert>
+            )}
             <Text fontWeight="bold">Owner:</Text>
             <Link as={NextLink} href={`../profile/${nft.owner}`} passHref>
               {nft.owner}
@@ -96,9 +82,11 @@ const NFTDetailsPage = ({ nft }) => {
             <Link as={NextLink} href={`../profile/${nft.creator}`} passHref>
               {nft.creator}
             </Link>
-            <Text fontWeight="bold" my={4}>
-              Price: {nft.priceRounded} CAPS
-            </Text>
+            {nft.isListed && (
+              <><Badge colorScheme="green">Listed for sale</Badge><Text fontWeight="bold" my={4}>
+                Price: {nft.priceRounded} CAPS
+              </Text></>
+            )}
             <Flex>
               <Button colorScheme="blue" mr={3}>
                 Buy Now

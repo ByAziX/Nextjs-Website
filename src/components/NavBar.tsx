@@ -12,8 +12,8 @@ const Connect = dynamic(() => import('./Connect').then(m => m.Connect), {
 });
 
 const NavBar: React.FC = () => {
-  const bgColor = useColorModeValue('gray.100', 'gray.700');
-  const textColor = useColorModeValue('gray.600', 'white');
+  const bgColor = useColorModeValue('light.bg', 'dark.bg');
+  const textColor = useColorModeValue('light.text', 'dark.text');
 
   return (
     <Flex
@@ -37,10 +37,10 @@ const NavBar: React.FC = () => {
 
       <HStack spacing={4}>
       <NextLink href="/explore" passHref>
-            <Button colorScheme="teal" variant="ghost">Explore</Button>
+            <Button >Explore</Button>
         </NextLink>
-        <Button colorScheme="teal" variant="ghost">Create</Button>
-        <Button colorScheme="teal" variant="ghost">My Collection</Button>
+        <Button >Create</Button>
+        <Button >My Collection</Button>
 
         <Connect />
 
@@ -51,8 +51,6 @@ const NavBar: React.FC = () => {
           icon={<HamburgerIcon />}
           aria-label="Open Menu"
           size="lg"
-          variant="ghost"
-          colorScheme="teal"
         />
       </HStack>
     </Flex>

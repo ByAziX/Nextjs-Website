@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Box, Image, Text, Skeleton, VStack, useColorModeValue, Tooltip, Link } from '@chakra-ui/react';
+import { Box, Image, Text, Skeleton, VStack, useColorModeValue, Tooltip, Link, Badge } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import {NFTEntity} from './interfaces'
 
 
 const NFTCard: React.FC<{ nft: NFTEntity }> = ({ nft }) => {
-  const bgColor = useColorModeValue('white', 'gray.800');
-  const textColor = useColorModeValue('gray.600', 'white');
+  const bgColor = useColorModeValue('light.bg', 'dark.bg');
+  const textColor = useColorModeValue('light.text', 'dark.text');
+  
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -69,11 +70,11 @@ const NFTCard: React.FC<{ nft: NFTEntity }> = ({ nft }) => {
         )}
 
         {nft.isListed && (
-          <Tooltip label="NFT price" aria-label="NFT price">
+          <><Badge colorScheme="green">Listed for sale</Badge><Text fontWeight="bold" my={4}></Text><Tooltip label="NFT price" aria-label="NFT price">
             <Text fontSize="xs" fontWeight="bold">
               Price: {nft.priceRounded} CAPS
             </Text>
-          </Tooltip>
+          </Tooltip></>
         )}
       </VStack>
     </Box>

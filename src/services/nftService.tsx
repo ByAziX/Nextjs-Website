@@ -98,13 +98,24 @@ export const getNftData = async (id: string): Promise<NFTEntity> => {
         creator
         nftId
         offchainData
-        collectionId
         royalty
         priceRounded
         typeOfListing
         isListed
         collection {
           collectionId
+          owner
+          offchainData
+          nfts
+          nbNfts
+          limit
+          hasReachedLimit
+          isClosed
+          timestampCreated
+          timestampBurned
+          timestampClosed
+          timestampLimited
+
         }
       }
     }

@@ -104,7 +104,7 @@ export const Connect = () => {
           <VStack align="start">
             <Text fontSize="lg">Hello, {beautifyAddress(state.data.defaultAccount.address)}</Text>
             <Tooltip label={state.data.defaultAccount.address} aria-label="Full address">
-              <Text fontSize="sm" color="gray.500">Full Address</Text>
+              <Text fontSize="sm">Full Address</Text>
             </Tooltip>
           </VStack>
           <IconButton
@@ -113,16 +113,15 @@ export const Connect = () => {
             onClick={onCopy}
             colorScheme="blue"
           />
-          {hasCopied && <Text color="green.500">Copied!</Text>}
+          {hasCopied && <Text>Copied!</Text>}
           <IconButton
             aria-label="Disconnect"
             icon={<CloseIcon />}
             onClick={handleDisconnect}
-            colorScheme="red"
           />
         </HStack>
       ) : (
-        <Button colorScheme="orange" onClick={handleConnect}>Connect</Button>
+        <Button onClick={handleConnect}>Connect</Button>
       )}
     </VStack>
   );

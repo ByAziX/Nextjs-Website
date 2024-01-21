@@ -1,69 +1,39 @@
+// styles/theme.ts
 import { extendTheme, ThemeConfig } from '@chakra-ui/react';
 
-// Configuration du thème
+// Define the color modes configurations
 const config: ThemeConfig = {
   initialColorMode: 'light',
   useSystemColorMode: false,
 };
 
-// Couleurs personnalisées
+// Define the color palette for light and dark modes
 const colors = {
-  brand: {
-    50: '#e3f2fd',
-    100: '#bbdefb',
-    200: '#90caf9',
-    300: '#64b5f6',
-    400: '#42a5f5',
-    500: '#2196f3', // Couleur principale de la marque
-    600: '#1e88e5',
-    700: '#1976d2',
-    800: '#1565c0',
-    900: '#0d47a1',
+  // Light mode colors
+  light: {
+    text: 'rgb(61, 0, 183)', // Example primary text color
+    bg: 'white', // White background
+    primary: 'rgb(61, 0, 183)', // Primary brand color
+    // ... other colors for light mode
   },
-  // Ajoutez d'autres palettes de couleurs si nécessaire
+  // Dark mode colors
+  dark: {
+    text: 'white', // White text for dark mode
+    bg: 'black', // Black background for dark mode
+    primary: 'rgb(61, 0, 183)', // Primary brand color stays the same
+    // ... other colors for dark mode
+  },
 };
 
-// Styles de boutons personnalisés
-const Button = {
-  baseStyle: {
-    fontWeight: 'bold',
-    borderRadius: 'md', // boutons avec coins arrondis
+// Create the theme object
+const theme = extendTheme({
+  config,
+  colors: {
+    // Here you can add shared colors between light and dark modes
+    // and reference colors.light or colors.dark in components based on the color mode
   },
-  sizes: {
-    sm: {
-      fontSize: 'sm',
-      px: 4, // padding horizontal
-      py: 2, // padding vertical
-    },
-    md: {
-      fontSize: 'md',
-      px: 6,
-      py: 3,
-    },
-    // Ajoutez d'autres tailles si nécessaire
-  },
-  variants: {
-    solid: {
-      bg: 'brand.500',
-      color: 'white',
-      _hover: {
-        bg: 'brand.600',
-      },
-      _active: {
-        bg: 'brand.700',
-      },
-    },
-    // Ajoutez d'autres variantes si nécessaire
-  },
-  // Ajoutez defaultProps si nécessaire
-};
-
-// Polices personnalisées
-const fonts = {
-  heading: '"Avenir Next", sans-serif',
-  body: '"Roboto", sans-serif',
-};
-
-const theme = extendTheme({ config, colors, components: { Button }, fonts });
+  // Other theme customizations like fonts, components, etc.
+  // ...
+});
 
 export default theme;

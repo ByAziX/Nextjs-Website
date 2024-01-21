@@ -35,23 +35,18 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
 
   return (
     <HStack spacing={4} justifyContent="center">
-      {/* Bouton pour aller à la première page */}
       <Button
         onClick={() => onPageChange(1)}
         disabled={currentPage === 1}
-        leftIcon={<Text fontSize="xl">{"<<"}</Text>} // Flèche gauche
+        leftIcon={<Text fontSize="xs">{"<<"}</Text>} 
       >
-        Première
       </Button>
-      {/* Bouton pour aller à la page précédente */}
       <Button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        leftIcon={<Text fontSize="xl">{"<"}</Text>} // Flèche gauche
+        leftIcon={<Text fontSize="xs">{"<"}</Text>} 
       >
-        Précédent
       </Button>
-      {/* Numéros de pages */}
       {pageNumbers.map((page) => (
         <Button
           key={page}
@@ -61,21 +56,17 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
           {page}
         </Button>
       ))}
-      {/* Bouton pour aller à la page suivante */}
       <Button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        rightIcon={<Text fontSize="xl">{">"}</Text>} // Flèche droite
+        rightIcon={<Text fontSize="xs">{">"}</Text>} 
       >
-        Suivant
       </Button>
-      {/* Bouton pour aller à la dernière page */}
       <Button
         onClick={() => onPageChange(totalPages)}
         disabled={currentPage === totalPages}
-        rightIcon={<Text fontSize="xl">{">>"}</Text>} // Flèche droite
+        rightIcon={<Text fontSize="xs">{">>"}</Text>}
       >
-        Dernière
       </Button>
     </HStack>
   );
