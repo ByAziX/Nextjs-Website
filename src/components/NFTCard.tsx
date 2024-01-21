@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Box, Image, Text, Link, Skeleton, VStack, useColorModeValue, Tooltip } from '@chakra-ui/react';
+import { Box, Image, Text, Skeleton, VStack, useColorModeValue, Tooltip } from '@chakra-ui/react';
+import NextLink from 'next/link'
+import { Link } from '@chakra-ui/react'
+
+
 
 export interface NFT {
   nftId: string;
@@ -85,7 +89,14 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
             ID: {nft.nftId}
           </Text>
         </Tooltip>
-        {/* Removed owner, creator, collection, and offchain data for brevity */}
+        <Link as={NextLink} href={`/profile/${nft.owner}`}>
+        <Tooltip label="NFT owner address" aria-label="NFT owner">
+          <Text fontSize="xs" fontWeight="bold">
+            Owner: {nft.owner}
+          </Text>
+        </Tooltip>
+        </Link>
+
       </VStack>
     </Box>
   );
