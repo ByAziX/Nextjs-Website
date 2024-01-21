@@ -2,7 +2,26 @@
 import { request, gql } from 'graphql-request';
 import { TernoaIPFS } from 'ternoa-js';
 import redisClient from './redisClient'; // Importation du client Redis
-import { NFTEntity, NFTResponse } from '../components/interfaces'; // Importation des interfaces NFTEntity et NFTResponse
+
+export interface NFTEntity {
+  nftId: string;
+  owner: string;
+  creator: string;
+  collectionId: string;
+  offchainData: string;
+  priceRounded: number;
+  typeOfListing: string;
+  isListed: boolean;
+  metadata?: any;
+  mediaUrl: string;
+}
+
+export interface NFTResponse {
+  nftEntities: {
+    totalCount: number;
+    nodes: NFTEntity[];
+  };
+}
 
 // Initialisez l'instance TernoaIPFS avec l'URL de la passerelle IPFS et la clé API
 const ipfsClient = new TernoaIPFS(new URL(process.env.IPFS_GATEWAY), process.env.IPFS_API_KEY);

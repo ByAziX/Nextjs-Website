@@ -1,10 +1,11 @@
 // pages/index.tsx
 import React from 'react';
 import {
-  Button, Heading, Text, VStack
+  Button, Heading, Text, VStack, Link
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import NextLink from 'next/link';
+
 
 const IndexPage: React.FC = () => {
   return (
@@ -19,11 +20,11 @@ const IndexPage: React.FC = () => {
         <Text fontSize="xl">
           NFT Marketplace is the premier destination for NFTs on the blockchain. Explore the marketplace for the best digital art and collectibles.
         </Text>
-        <NextLink href="/explore" passHref>
+        <Link as={NextLink} href="/explore" passHref>
         <Button size="lg" colorScheme="orange" px="8">
           Explore Now
         </Button>
-        </NextLink>
+        </Link>
       </VStack>
 
     </>

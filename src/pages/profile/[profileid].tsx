@@ -1,9 +1,8 @@
 // pages/explore/[profileid].tsx
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import NFTList from '../../components/NFTList';
-import { NFTListProps } from '../../components/interfaces';
 import { getNFTfromOwner } from '../../services/nftService';
+import NFTList, { NFTListProps } from '../../components/NFTList';
 
 const ProfilePage: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) => {
   return (

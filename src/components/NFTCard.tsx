@@ -1,10 +1,31 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Box, Image, Text, Skeleton, VStack, useColorModeValue, Tooltip } from '@chakra-ui/react';
+import { Box, Image, Text, Skeleton, VStack, useColorModeValue, Tooltip, Link } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import { Link } from '@chakra-ui/react';
-import { NFT } from './interfaces';
 
+export interface NFT {
+  nftId: string;
+  owner: string;
+  creator: string;
+  collectionId: string;
+  offchainData: string;
+  priceRounded: number;
+  typeOfListing: string;
+  isListed: boolean;
+  metadata?: {
+    title?: string;
+    description?: string;
+    image?: string;
+    properties?: {
+      media?: {
+        hash: string;
+        type: string;
+        size: number;
+      };
+    };
+  };
+  mediaUrl: string;
+}
 
 const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
   const bgColor = useColorModeValue('white', 'gray.800');
@@ -14,10 +35,6 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
 
   const handleBoxClick = () => {
     router.push(`/nft/${nft.nftId}`);
-  };
-
-  const stopPropagation = (e: React.MouseEvent) => {
-    e.stopPropagation();
   };
 
   const handleImageLoaded = () => {
@@ -40,7 +57,7 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
       cursor="pointer"
       _hover={{ shadow: "lg", transform: "scale(1.02)" }} 
       width={'200px'} 
-      height="auto" 
+      height="auto"
     >
       <Box position="relative" height="200px" overflow="hidden">
         {isLoading && <Skeleton height="200px" />}
@@ -59,23 +76,18 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
             {nft.metadata.title}
           </Text>
         )}
-        
         <Tooltip label="NFT id" aria-label="NFT id">
-          <Link as={NextLink} onClick={stopPropagation} href={`/nft/${nft.nftId}`} passHref>
-            <Text fontSize="xs" fontWeight="bold" as="a">
+          <Link as={NextLink} href={`/nft/${nft.nftId}`} passHref>
               NFT N°{nft.nftId}
-            </Text>
           </Link>
         </Tooltip>
-        
+
         {nft.collectionId && (
-        <Tooltip label="NFT collection id" aria-label="NFT collection">
-          <Link as={NextLink} onClick={stopPropagation} href={`/collection/${nft.collectionId}`} passHref>
-            <Text fontSize="xs" fontWeight="bold" as="a">
-              Collection N°{nft.collectionId}
-            </Text>
-          </Link>
-        </Tooltip>
+          <Tooltip label="NFT collection id" aria-label="NFT collection">
+            <Link as={NextLink} href={`/collection/${nft.collectionId}`} passHref>
+                Collection N°{nft.collectionId}
+            </Link>
+          </Tooltip>
         )}
 
         {nft.isListed && (
@@ -85,7 +97,6 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
             </Text>
           </Tooltip>
         )}
-
       </VStack>
     </Box>
   );
