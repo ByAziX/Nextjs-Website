@@ -1,4 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import theme from "../theme";
 import { AppProps } from "next/app";
@@ -11,7 +12,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <NavBar />
       <Component {...pageProps} />
       <Footer />
+      <SpeedInsights />
     </ChakraProvider>
+
   );
 }
 
