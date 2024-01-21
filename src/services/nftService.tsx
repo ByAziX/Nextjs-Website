@@ -9,6 +9,7 @@ export interface NFTEntity {
   creator: string;
   collectionId: string;
   offchainData: string;
+  priceRounded: number;
   metadata?: any;
   mediaUrl: string;
 }
@@ -68,6 +69,7 @@ export const getLastListedNFTs = async (limit = 10, offset = 0): Promise<{ nfts:
           creator
           collectionId
           offchainData
+          priceRounded
         }
       }
     }

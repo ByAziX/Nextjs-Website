@@ -9,6 +9,7 @@ export interface NFT {
   creator: string;
   collectionId: string;
   offchainData: string;
+  priceRounded: number;
   metadata?: {
     title?: string;
     description?: string;

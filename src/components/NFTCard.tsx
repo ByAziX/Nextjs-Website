@@ -12,6 +12,7 @@ export interface NFT {
   creator: string;
   collectionId: string;
   offchainData: string;
+  priceRounded: number;
   metadata?: {
     title?: string;
     description?: string;
@@ -37,7 +38,7 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
   const miniSize = '200px'; // example mini size, adjust as needed
 
   const handleBoxClick = () => {
-    router.push(`/nfts/${nft.nftId}`);
+    router.push(`/nft/${nft.nftId}`);
   };
 
   const stopPropagation = (e: React.MouseEvent) => {
@@ -83,21 +84,29 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
             {nft.metadata.title}
           </Text>
         )}
-        {/* Removed description for brevity in a mini-card */}
-        <Tooltip label="Unique identifier for NFT" aria-label="NFT ID">
-          <Text fontSize="xs" fontWeight="bold"> 
-            ID: {nft.nftId}
+        
+        <Tooltip label="NFT id" aria-label="NFT id">
+        <Link as={NextLink} onClick={stopPropagation} href={`/nft/${nft.nftId}`}>
+          <Text fontSize="xs" fontWeight="bold">
+            NFT N°{nft.nftId}
+          </Text>
+          </Link>
+        </Tooltip>
+        
+        <Tooltip label="NFT collection id" aria-label="NFT collection">
+        <Link as={NextLink} onClick={stopPropagation} href={`/collection/${nft.collectionId}`}>
+          <Text fontSize="xs" fontWeight="bold">
+            Collection N°{nft.collectionId}
+          </Text>
+          </Link>
+        </Tooltip>
+
+        <Tooltip label="NFT price" aria-label="NFT price">
+          <Text fontSize="xs" fontWeight="bold">
+            Price {nft.priceRounded}
           </Text>
         </Tooltip>
         
-        <Tooltip label="NFT owner address" aria-label="NFT owner">
-        <Link as={NextLink} onClick={stopPropagation} href={`/profile/${nft.owner}`}>
-          <Text fontSize="xs" fontWeight="bold">
-            Owner: {nft.owner}
-          </Text>
-          </Link>
-
-        </Tooltip>
 
       </VStack>
     </Box>
