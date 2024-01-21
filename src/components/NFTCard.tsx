@@ -89,13 +89,15 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
             ID: {nft.nftId}
           </Text>
         </Tooltip>
-        <Link as={NextLink} href={`/profile/${nft.owner}`}>
+        
         <Tooltip label="NFT owner address" aria-label="NFT owner">
+        <Link as={NextLink} onClick={stopPropagation} href={`/profile/${nft.owner}`}>
           <Text fontSize="xs" fontWeight="bold">
             Owner: {nft.owner}
           </Text>
+          </Link>
+
         </Tooltip>
-        </Link>
 
       </VStack>
     </Box>
