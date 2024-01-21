@@ -1,5 +1,7 @@
+// nftService.tsx
 import { request, gql } from 'graphql-request';
 import { TernoaIPFS } from 'ternoa-js';
+import redisClient from './redisClient'; // Importation du client Redis
 
 export interface NFTEntity {
   nftId: string;
@@ -22,7 +24,7 @@ export interface NFTResponse {
 const ipfsClient = new TernoaIPFS(new URL(process.env.IPFS_GATEWAY), process.env.IPFS_API_KEY);
 
 // Fonction pour récupérer les métadonnées IPFS
-const fetchIPFSMetadata = async (offchainData: string) => {
+const fetchIPFSMetadata = async (offchainData: string): Promise<{ metadata: any; mediaUrl: string }> => {
   try {
     const metadata = await ipfsClient.getFile(offchainData) as any;
     const mediaUrl = metadata?.properties?.media
@@ -37,6 +39,13 @@ const fetchIPFSMetadata = async (offchainData: string) => {
 
 // Fonction pour récupérer la liste des NFTs avec pagination
 export const getLastListedNFTs = async (limit = 10, offset = 0): Promise<{ nfts: NFTEntity[], totalCount: number }> => {
+  const cacheKey = `nfts:${limit}:${offset}`;
+  const cachedData = await redisClient.get(cacheKey);
+  
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
   const gqlQuery = gql`
     query GetNFTs($first: Int!, $offset: Int!) {
       nftEntities(first: $first, offset: $offset, orderBy: [TIMESTAMP_CREATED_DESC]) {
@@ -63,6 +72,8 @@ export const getLastListedNFTs = async (limit = 10, offset = 0): Promise<{ nfts:
       return { ...nft, metadata, mediaUrl };
     }));
 
+    await redisClient.set(cacheKey, JSON.stringify({ nfts, totalCount: response.nftEntities.totalCount }), { EX: 10 });
+
     return { nfts, totalCount: response.nftEntities.totalCount };
   } catch (error) {
     console.error('Error fetching NFTs:', error);
@@ -72,6 +83,13 @@ export const getLastListedNFTs = async (limit = 10, offset = 0): Promise<{ nfts:
 
 // Fonction pour récupérer les données d'un NFT spécifique par son ID
 export const getNftData = async (id: string): Promise<NFTEntity> => {
+  const cacheKey = `nft:${id}`;
+  const cachedData = await redisClient.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
   const gqlQuery = gql`
     {
       nftEntity(id: "${id}") {
@@ -88,6 +106,9 @@ export const getNftData = async (id: string): Promise<NFTEntity> => {
     const response = await request<{ nftEntity: NFTEntity }>(process.env.GRAPHQL_ENDPOINT, gqlQuery);
     const nft = response.nftEntity;
     const { metadata, mediaUrl } = await fetchIPFSMetadata(nft.offchainData);
+
+    await redisClient.set(cacheKey, JSON.stringify({ ...nft, metadata, mediaUrl }), { EX: 3600 });
+
     return { ...nft, metadata, mediaUrl };
   } catch (error) {
     console.error('Error fetching NFT:', error);
