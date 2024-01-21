@@ -10,6 +10,8 @@ export interface NFTEntity {
   collectionId: string;
   offchainData: string;
   priceRounded: number;
+  typeOfListing: string;
+  isListed: boolean;
   metadata?: any;
   mediaUrl: string;
 }
@@ -70,6 +72,8 @@ export const getLastListedNFTs = async (limit = 10, offset = 0): Promise<{ nfts:
           collectionId
           offchainData
           priceRounded
+          typeOfListing
+          isListed
         }
       }
     }
@@ -112,6 +116,9 @@ export const getNftData = async (id: string): Promise<NFTEntity> => {
         offchainData
         collectionId
         royalty
+        priceRounded
+        typeOfListing
+        isListed
       }
     }
   `;
@@ -160,6 +167,8 @@ export const getNFTfromOwner = async (owner: string, limit = 10, offset = 0): Pr
         collectionId
         offchainData
         priceRounded
+        typeOfListing
+        isListed
       }
     }
   }

@@ -1,6 +1,5 @@
-// pages/nfts/[nftId].tsx
 import React from 'react';
-import { Box, Image, Text, VStack, Heading } from '@chakra-ui/react';
+import { Box, Flex, Image, Text, Heading, Badge, Button, VStack } from '@chakra-ui/react';
 import { getNftData } from '../../services/nftService';
 
 export interface NFT {
@@ -27,34 +26,43 @@ export interface NFT {
 
 const NFTDetailsPage = ({ nft }: { nft: NFT }) => {
   if (!nft) {
-    return <div>Loading...</div>;
+    return <Box>Loading...</Box>;
   }
 
   return (
-    <VStack spacing={4} align="stretch" p={5}>
-      <Heading as="h1" size="xl">{nft.metadata?.title}</Heading>
-      <Image src={nft.mediaUrl} alt={nft.metadata?.title} borderRadius="lg" />
-      
-      <Box>
-        <Text fontSize="md" color="gray.500">Created by {nft.creator}</Text>
-        <Text fontSize="md" color="gray.500">Owned by {nft.owner}</Text>
+    <Flex align="start" p={5}>
+      <Box flexShrink={0}>
+        <Image
+          borderRadius="lg"
+          src={nft.mediaUrl}
+          alt={`Image of ${nft.metadata?.title}`}
+          boxSize="300px" // Adjust the size as needed
+          objectFit="cover"
+        />
       </Box>
-
-      <Box>
-        <Text fontSize="lg">{nft.metadata?.description}</Text>
-      </Box>
-
-      {/* Ajoutez ici d'autres informations ou actions spécifiques au NFT */}
-    </VStack>
+      <VStack align="start" ml={5}>
+        <Heading as="h2" size="2xl">{nft.metadata?.title}</Heading>
+        <Text color="gray.500">{nft.metadata?.description}</Text>
+        <Badge colorScheme="purple" p={1}>
+          Collection #{nft.collectionId}
+        </Badge>
+        <Text fontWeight="bold">Owner: {nft.owner}</Text>
+        <Text fontWeight="bold">Creator: {nft.creator}</Text>
+        <Text fontWeight="bold">Price: {nft.priceRounded} ETH</Text>
+        
+        <Button colorScheme="blue" mt={4}>Buy Now</Button>
+        <Button variant="outline" colorScheme="blue" mt={2}>Make Offer</Button>
+      </VStack>
+    </Flex>
   );
 };
 
-// Cette fonction s'exécute côté serveur à chaque requête
+// This function runs on the server on every request
 export async function getServerSideProps(context) {
   const { nftId } = context.params;
   try {
     const nft = await getNftData(nftId);
-    return { props: { nft } }; // Ces props seront passés au composant NFTDetailsPage
+    return { props: { nft } }; // These props will be passed to the component
   } catch (error) {
     console.error('Error fetching NFT details:', error);
     return { props: { nft: null } };
