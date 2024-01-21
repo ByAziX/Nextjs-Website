@@ -6,7 +6,7 @@ import NFTList from '../components/NFTList';
 import { getLastListedNFTs } from '../services/nftService';
 import { NFT } from '../components/NFTCard';
 
-const DEFAULT_LIMIT = 15; 
+const DEFAULT_LIMIT = 21; 
 
 interface IndexProps {
   nfts: NFT[];

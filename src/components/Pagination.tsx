@@ -10,9 +10,8 @@ interface PaginationProps {
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
   const isPageActive = (page: number) => currentPage === page;
 
-  // Fonction pour générer un tableau de numéros de page à afficher
   const generatePageNumbers = () => {
-    const pagesToShow = 5; // Nombre de pages à afficher
+    const pagesToShow = 5; 
     const pageNumbers = [];
 
     if (totalPages <= pagesToShow) {

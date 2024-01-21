@@ -12,14 +12,13 @@ export interface NFTListProps {
   currentPage: number;
 }
 
-const DEFAULT_LIMIT = 9;
+const DEFAULT_LIMIT = 10;
 
 const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) => {
   const router = useRouter();
   const totalPages = Math.ceil(totalCount / DEFAULT_LIMIT);
 
   const handlePageChange = (page: number) => {
-    // Naviguer vers la nouvelle page tout en conservant d'autres paramètres de requête si nécessaire
     const query = { ...router.query, page: page.toString() };
     router.push({
       pathname: router.pathname,
