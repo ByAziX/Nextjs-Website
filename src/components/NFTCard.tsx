@@ -60,7 +60,7 @@ const NFTCard: React.FC<{ nft: NFTEntity }> = ({ nft }) => {
           </Link>
         </Tooltip>
 
-        {nft.collection.collectionId && (
+        {nft.collection && (
           <Tooltip label="NFT collection id" aria-label="NFT collection">
             <Link as={NextLink} href={`/collection/${nft.collection.collectionId}`} passHref>
                 Collection N°{nft.collection.collectionId}

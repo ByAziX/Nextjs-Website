@@ -95,6 +95,7 @@ export const getNftData = async (id: string): Promise<NFTEntity> => {
     {
       nftEntity(id: "${id}") {
         owner
+        creator
         nftId
         offchainData
         collectionId

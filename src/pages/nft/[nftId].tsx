@@ -1,6 +1,24 @@
 import React from 'react';
-import { Box, Flex, Image, Text, Heading, Badge, Button, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Image,
+  Text,
+  Heading,
+  Badge,
+  Button,
+  VStack,
+  Divider,
+  useColorModeValue,
+  SkeletonText,
+  Skeleton,
+  Alert,
+  AlertIcon,
+  Container,
+  Link
+} from '@chakra-ui/react';
 import { getNftData } from '../../services/nftService';
+import NextLink from 'next/link';
 
 export interface NFT {
   nftId: string;
@@ -24,45 +42,83 @@ export interface NFT {
   mediaUrl: string;
 }
 
-const NFTDetailsPage = ({ nft }: { nft: NFT }) => {
+const NFTDetailsPage = ({ nft }) => {
+  const bg = useColorModeValue('white', 'gray.800');
+  const text = useColorModeValue('gray.600', 'white');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  console.log(nft);
   if (!nft) {
-    return <Box>Loading...</Box>;
+    // If the NFT data is not yet loaded, display a loading state
+    return (
+      <Container centerContent py={10}>
+        <Skeleton height="400px" width="400px" />
+        <Box py={6}>
+          <SkeletonText noOfLines={4} spacing="4" />
+        </Box>
+      </Container>
+    );
   }
 
+  // Once the NFT data is loaded, display the content
   return (
-    <Flex align="start" p={5}>
-      <Box flexShrink={0}>
-        <Image
-          borderRadius="lg"
-          src={nft.mediaUrl}
-          alt={`Image of ${nft.metadata?.title}`}
-          boxSize="300px" // Adjust the size as needed
-          objectFit="cover"
-        />
-      </Box>
-      <VStack align="start" ml={5}>
-        <Heading as="h2" size="2xl">{nft.metadata?.title}</Heading>
-        <Text color="gray.500">{nft.metadata?.description}</Text>
-        <Badge colorScheme="purple" p={1}>
-          Collection #{nft.collectionId}
-        </Badge>
-        <Text fontWeight="bold">Owner: {nft.owner}</Text>
-        <Text fontWeight="bold">Creator: {nft.creator}</Text>
-        <Text fontWeight="bold">Price: {nft.priceRounded} ETH</Text>
-        
-        <Button colorScheme="blue" mt={4}>Buy Now</Button>
-        <Button variant="outline" colorScheme="blue" mt={2}>Make Offer</Button>
-      </VStack>
-    </Flex>
+    <Container maxW="container.xl" py={10}>
+      <Flex direction={{ base: 'column', md: 'row' }} bg={bg} boxShadow="xl" rounded="lg" overflow="hidden">
+        <Box>
+          <Image
+            src={nft.mediaUrl || 'https://via.placeholder.com/400'}
+            alt={`NFT ${nft.metadata?.title || ''}`}
+            objectFit="cover"
+            boxSize="400px"
+            borderRadius="lg"
+          />
+        </Box>
+        <Box flex="1" p={5}>
+          <VStack align="start" spacing={4}>
+            <Heading as="h1" size="2xl">
+              {nft.metadata?.title || 'NFT Title'}
+            </Heading>
+            <Text fontSize="lg" color={text}>
+              {nft.metadata?.description || 'NFT Description'}
+            </Text>
+            <Badge colorScheme="purple" p={2}>
+              Collection #{nft.collectionId}
+            </Badge>
+            <Divider borderColor={borderColor} my={4} />
+            <Alert status="warning" borderRadius="md">
+              <AlertIcon />
+              This NFT belongs to a collection not closed!
+            </Alert>
+            <Text fontWeight="bold">Owner:</Text>
+            <Link as={NextLink} href={`../profile/${nft.owner}`} passHref>
+              {nft.owner}
+            </Link>
+            <Text fontWeight="bold">Creator:</Text>
+            <Link as={NextLink} href={`../profile/${nft.creator}`} passHref>
+              {nft.creator}
+            </Link>
+            <Text fontWeight="bold" my={4}>
+              Price: {nft.priceRounded} CAPS
+            </Text>
+            <Flex>
+              <Button colorScheme="blue" mr={3}>
+                Buy Now
+              </Button>
+              <Button variant="outline" colorScheme="blue">
+                Make Offer
+              </Button>
+            </Flex>
+          </VStack>
+        </Box>
+      </Flex>
+    </Container>
   );
 };
 
-// This function runs on the server on every request
 export async function getServerSideProps(context) {
   const { nftId } = context.params;
   try {
     const nft = await getNftData(nftId);
-    return { props: { nft } }; // These props will be passed to the component
+    return { props: { nft } };
   } catch (error) {
     console.error('Error fetching NFT details:', error);
     return { props: { nft: null } };
