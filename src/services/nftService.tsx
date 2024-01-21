@@ -41,8 +41,8 @@ const fetchIPFSMetadata = async (offchainData: string): Promise<{ metadata: any;
       ? `${process.env.IPFS_GATEWAY}/ipfs/${metadata.properties.media.hash}`
       : `${process.env.IPFS_GATEWAY}/ipfs/${defaultImageHash}`;
 
-    await redisClient.set(cacheKey, JSON.stringify({ metadata, mediaUrl }), { EX: 3600 });
-    
+    await redisClient.set(cacheKey, JSON.stringify({ metadata, mediaUrl }), { EX: 10000 });
+
     return { metadata, mediaUrl };
   } catch (error) {
     console.error(`Error fetching metadata from IPFS:`, error);

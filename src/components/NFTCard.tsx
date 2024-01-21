@@ -45,7 +45,7 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
     setIsLoading(false);
     // Gestion d'erreur supplémentaire si nécessaire
   };
-
+  console.log(nft.mediaUrl);
   return (
     <Box
       borderWidth="1px"
@@ -67,7 +67,6 @@ const NFTCard: React.FC<{ nft: NFT }> = ({ nft }) => {
         <Image
           src={nft.mediaUrl}
           alt={`Image for NFT ${nft.nftId}`}
-          loading="lazy" 
           onLoad={handleImageLoaded}
           onError={handleImageError}
           style={{ display: isLoading ? 'none' : 'block', width: '100%', height: '100%', objectFit: 'cover' }}

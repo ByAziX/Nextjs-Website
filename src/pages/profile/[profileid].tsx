@@ -16,7 +16,7 @@ const ProfilePage: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query, params } = context;
   const page = parseInt(query.page as string) || 1;
-  const limit = 21; 
+  const limit = 9; 
   const offset = (page - 1) * limit;
 
   try {
