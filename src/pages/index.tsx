@@ -21,7 +21,7 @@ import {
   AccordionItem,
   AccordionPanel
 } from '@chakra-ui/react';
-import { FaEthereum, FaPaintBrush, FaHandshake, FaLock, FaArrowRight } from 'react-icons/fa';
+import { FaEthereum, FaPaintBrush, FaHandshake, FaLock, FaArrowRight, FaCoins, FaUserShield, FaChartLine } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 const MotionBox = motion(Box);
@@ -73,6 +73,51 @@ const NFTCollectionPreview = ({ title, image, description }) => (
     <Heading size="md" mb={2}>{title}</Heading>
     <Text fontSize="sm">{description}</Text>
   </GridItem>
+);
+
+// Section Tools Available on the Site
+const SiteTools = () => (
+  <Box py={10}>
+    <Heading size="lg" textAlign="center" my={10}>
+      Tools Available
+    </Heading>
+    <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
+      <ToolFeature
+        title="Sentinel Battle Delegation"
+        icon={FaUserShield}
+        description="Delegate your sentinels to participate in battles, earning rewards and enhancing your strategic position."
+      />
+      <ToolFeature
+        title="Node Rental"
+        icon={FaCoins}
+        description="Rent sentinel nodes to increase your network presence and earn passive income through system rewards."
+      />
+      <ToolFeature
+        title="Market Analytics"
+        icon={FaChartLine}
+        description="Access comprehensive market analytics to make informed decisions and optimize your sentinel deployments."
+      />
+      {/* Other tools can be added here */}
+    </SimpleGrid>
+  </Box>
+);
+
+// ToolFeature Component for individual tools
+const ToolFeature = ({ title, icon, description }) => (
+  <VStack
+    as={MotionBox}
+    whileHover={{ scale: 1.05 }}
+    transition="all 0.3s ease-out"
+    bg={useColorModeValue('white', 'gray.800')}
+    p={5}
+    rounded="lg"
+    borderWidth="1px"
+    shadow="lg"
+  >
+    <Icon as={icon} w={10} h={10} color={useColorModeValue('teal.500', 'teal.200')} />
+    <Heading size="md">{title}</Heading>
+    <Text>{description}</Text>
+  </VStack>
 );
 
 
@@ -148,12 +193,8 @@ const IndexPage = () => {
 
       {/* Site Features */}
       <Heading size="lg" textAlign="center" my={10}>Why Choose Us</Heading>
-      <SimpleGrid columns={{ base: 1, md: 4 }} spacing={10}>
-        <Feature title="Mint NFTs" icon={FaPaintBrush}>Easily create and list your digital art.</Feature>
-        <Feature title="Trade Securely" icon={FaHandshake}>Secure transactions with blockchain technology.</Feature>
-        <Feature title="Earn Rewards" icon={FaLock}>Stake your NFTs and earn crypto rewards.</Feature>
-        <Feature title="Discover Rare Art" icon={FaEthereum}>Access exclusive digital artworks.</Feature>
-      </SimpleGrid>
+      <SiteTools />
+
 
       {/* FAQ Section */}
       <Box py={10} mt={10}>
