@@ -12,7 +12,8 @@ import {
   Avatar,
   Tooltip,
   IconButton,
-  useClipboard
+  useClipboard,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { CopyIcon, CloseIcon } from '@chakra-ui/icons';
 import NextLink from 'next/link';
@@ -33,6 +34,9 @@ const initialExtensionState: TExtensionState = {
 };
 
 export const Connect = () => {
+  const buttonHoverBg = useColorModeValue('purple.500', 'purple.200');
+  const buttonActiveBg = useColorModeValue('purple.700', 'purple.400');
+  
   const [state, setState] = useState(initialExtensionState);
   const toast = useToast();
   const { hasCopied, onCopy } = useClipboard(state.data?.defaultAccount.address || '');
@@ -121,7 +125,7 @@ export const Connect = () => {
           />
         </HStack>
       ) : (
-        <Button onClick={handleConnect}>Connect</Button>
+        <Button _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }} onClick={handleConnect}>Connect</Button>
       )}
     </VStack>
   );

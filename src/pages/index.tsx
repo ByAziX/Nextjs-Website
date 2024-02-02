@@ -23,26 +23,10 @@ import {
 } from '@chakra-ui/react';
 import { FaEthereum, FaPaintBrush, FaHandshake, FaLock, FaArrowRight, FaCoins, FaUserShield, FaChartLine } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import FAQSection from '../components/FAQSection';
+import SiteTools from '../components/SiteTools';
 
 const MotionBox = motion(Box);
-
-const Feature = ({ title, icon, children, ...props }) => (
-  <VStack
-    as={MotionBox}
-    whileHover={{ scale: 1.05 }}
-    bg={useColorModeValue('white', 'gray.800')}
-    p={5}
-    rounded="lg"
-    borderWidth="1px"
-    _hover={{ shadow: 'xl' }}
-    transition="all 0.3s ease-out"
-    {...props}
-  >
-    <Icon as={icon} w={8} h={8} color={useColorModeValue('teal.500', 'teal.200')} />
-    <Heading size="md">{title}</Heading>
-    <Text>{children}</Text>
-  </VStack>
-);
 
 const NFTCard = ({ image, title, currentBid }) => (
   <MotionBox
@@ -75,32 +59,7 @@ const NFTCollectionPreview = ({ title, image, description }) => (
   </GridItem>
 );
 
-// Section Tools Available on the Site
-const SiteTools = () => (
-  <Box py={10}>
-    <Heading size="lg" textAlign="center" my={10}>
-      Tools Available
-    </Heading>
-    <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
-      <ToolFeature
-        title="Sentinel Battle Delegation"
-        icon={FaUserShield}
-        description="Delegate your sentinels to participate in battles, earning rewards and enhancing your strategic position."
-      />
-      <ToolFeature
-        title="Node Rental"
-        icon={FaCoins}
-        description="Rent sentinel nodes to increase your network presence and earn passive income through system rewards."
-      />
-      <ToolFeature
-        title="Market Analytics"
-        icon={FaChartLine}
-        description="Access comprehensive market analytics to make informed decisions and optimize your sentinel deployments."
-      />
-      {/* Other tools can be added here */}
-    </SimpleGrid>
-  </Box>
-);
+
 
 // ToolFeature Component for individual tools
 const ToolFeature = ({ title, icon, description }) => (
@@ -122,8 +81,6 @@ const ToolFeature = ({ title, icon, description }) => (
 
 
 const IndexPage = () => {
-  const bgColor = useColorModeValue('light.bg', 'dark.bg');
-  const textColor = useColorModeValue('light.text', 'dark.text');
 
   return (
     <Container maxW="container.xl" p={0}>
@@ -191,30 +148,9 @@ const IndexPage = () => {
         {/* More collections previews */}
       </Grid>
 
-      {/* Site Features */}
       <SiteTools />
+      <FAQSection />
 
-
-      {/* FAQ Section */}
-      <Box py={10} mt={10}>
-        <Heading size="lg" textAlign="center" mb={6}>FAQs</Heading>
-        <Accordion allowToggle>
-          <AccordionItem>
-            <h2>
-              <AccordionButton>
-                <Box flex="1" textAlign="left">
-                  What is an NFT?
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4}>
-              Non-Fungible Tokens (NFTs) represent ownership of unique digital items using blockchain technology.
-            </AccordionPanel>
-          </AccordionItem>
-          {/* Additional FAQs */}
-        </Accordion>
-      </Box>
     </Container>
   );
 };
