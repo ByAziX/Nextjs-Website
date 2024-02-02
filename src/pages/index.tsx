@@ -192,7 +192,6 @@ const IndexPage = () => {
       </Grid>
 
       {/* Site Features */}
-      <Heading size="lg" textAlign="center" my={10}>Why Choose Us</Heading>
       <SiteTools />
 
 
