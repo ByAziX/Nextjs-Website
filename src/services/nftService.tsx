@@ -91,8 +91,8 @@ export const getNftData = async (id: string): Promise<NFTEntity> => {
   }
 
   const gqlQuery = gql`
-    query GetNFT($id: ID!) {
-      nftEntity(id: $id) {
+    {
+      nftEntity(id: "${id}") {
         owner
         creator
         nftId
@@ -114,18 +114,19 @@ export const getNftData = async (id: string): Promise<NFTEntity> => {
           timestampBurned
           timestampClosed
           timestampLimited
+
         }
       }
     }
   `;
 
   try {
-    const response = await request<{ nftEntity: NFTEntity }>(process.env.GRAPHQL_ENDPOINT!, gqlQuery, { id });
+    const response = await request<{ nftEntity: NFTEntity }>(process.env.GRAPHQL_ENDPOINT, gqlQuery);
     const nft = response.nftEntity;
     const { metadata, mediaUrl } = await fetchIPFSMetadata(nft.offchainData);
 
     await cache.set(cacheKey, JSON.stringify({ ...nft, metadata, mediaUrl }), 3600); // Cache pour 1 heure
-
+    
     return { ...nft, metadata, mediaUrl };
   } catch (error) {
     console.error('Error fetching NFT:', error);

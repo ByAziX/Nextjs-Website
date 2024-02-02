@@ -27,6 +27,8 @@ const NFTDetailsPage = ({ nft }) => {
   const textColor = useColorModeValue('light.text', 'dark.text');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
 
+  console.log('NFT details:', nft);
+
   if (!nft) {
     // If the NFT data is not yet loaded, display a loading state
     return (
@@ -38,6 +40,8 @@ const NFTDetailsPage = ({ nft }) => {
       </Container>
     );
   }
+
+
 
   // Once the NFT data is loaded, display the content
   return (
@@ -109,6 +113,7 @@ export async function getServerSideProps(context) {
     return { props: { nft } };
   } catch (error) {
     console.error('Error fetching NFT details:', error);
+    
     return { props: { nft: null } };
   }
 }
