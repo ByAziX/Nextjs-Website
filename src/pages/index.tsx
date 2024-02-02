@@ -97,10 +97,11 @@ const IndexPage = () => {
           <Text fontSize="lg" mb={4}>
             Produce an exclusive NFT collection of over 10,000 items by uploading the necessary layers, and prepare to market your collection for sale.
           </Text>
-          <Button colorScheme="purple" mb={4}>
+          <Button colorScheme="purple" mb={4} marginRight={2}>
             Let's Start
           </Button>
-          <Button variant="outline" colorScheme="purple">
+          
+          <Button variant="outline" colorScheme="purple" mb={4}>
             Join Discord
           </Button>
         </Box>
