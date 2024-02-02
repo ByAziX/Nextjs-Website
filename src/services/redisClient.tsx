@@ -21,7 +21,17 @@ const redisClient: RedisClientType = createClient({
 });
 const memoryCache = new MemoryCache();
 
-redisClient.on('error', (err) => console.error('Redis Client Error', err));
+let isRedisConnected = false;
+
+redisClient.on('connect', () => {
+  console.log('Connected to Redis.');
+  isRedisConnected = true;
+});
+
+redisClient.on('error', (err) => {
+  console.error('Redis Client Error', err);
+  isRedisConnected = false; // Mise à jour de l'état de connexion
+});
 
 (async () => {
   try {
@@ -34,7 +44,8 @@ redisClient.on('error', (err) => console.error('Redis Client Error', err));
 const cache = {
   async get(key: string): Promise<string | null> {
     try {
-      if (await redisClient.isOpen()) {
+      // Corrected usage here
+      if (isRedisConnected) {
         const value = await redisClient.get(key);
         if (value) return value;
       }
@@ -45,7 +56,8 @@ const cache = {
   },
   async set(key: string, value: string, ttl: number = 60): Promise<void> {
     try {
-      if (await redisClient.isOpen()) {
+      // Corrected usage here
+      if (isRedisConnected) {
         await redisClient.set(key, value, { EX: ttl });
         return;
       }
