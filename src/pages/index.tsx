@@ -1,71 +1,126 @@
-// pages/index.tsx
 import React from 'react';
 import {
-  Box, Button, Heading, Text, VStack, Flex, Image, Divider, GridItem, Container, SimpleGrid, useColorModeValue, HStack
+  Box, Flex, Heading, Text, Button, SimpleGrid, useColorModeValue, Icon, Container, VStack, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Grid, GridItem, Image
 } from '@chakra-ui/react';
-import Head from 'next/head';
-import NextLink from 'next/link';
+import { FaEthereum, FaPaintBrush, FaHandshake, FaLock, FaArrowRight, FaRegQuestionCircle } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
-const IndexPage: React.FC = () => {
+// Framer Motion MotionBox for animations
+const MotionBox = motion(Box);
+
+// Feature Component with Motion for site functionalities
+const Feature = ({ title, icon, children }) => (
+  <VStack
+    as={MotionBox}
+    whileHover={{ scale: 1.05 }}
+    bg={useColorModeValue('white', 'gray.800')}
+    p={5}
+    rounded="lg"
+    borderWidth="1px"
+    _hover={{ shadow: 'xl' }}
+    transition="all 0.3s ease-out"
+  >
+    <Icon as={icon} w={8} h={8} color={useColorModeValue('teal.500', 'teal.200')} />
+    <Heading size="md">{title}</Heading>
+    <Text>{children}</Text>
+  </VStack>
+);
+
+// NFT Collection Preview Component
+const NFTCollectionPreview = ({ title, image, description }) => (
+  <GridItem colSpan={{ base: 2, md: 1 }} as={MotionBox} whileHover={{ scale: 1.05 }} transition="all 0.3s ease-out">
+    <Image src={image} alt={title} borderRadius="md" mb={4} />
+    <Heading size="md" mb={2}>{title}</Heading>
+    <Text fontSize="sm">{description}</Text>
+  </GridItem>
+);
+
+const IndexPage = () => {
   const bgColor = useColorModeValue('light.bg', 'dark.bg');
   const textColor = useColorModeValue('light.text', 'dark.text');
+
   return (
-    
-    <>
-      <Head>
-        <title>NFT Marketplace</title>
-      </Head>
+    <Container maxW="container.xl" p={0}>
+      {/* Hero Section */}
+      <Flex
+        bgImage="url('/nft-marketplace-background.webp')"
+        bgSize="cover"
+        bgPos="center"
+        bgRepeat="no-repeat"
+        h="60vh"
+        align="center"
+        justify="center"
+        direction="column"
+        color="white"
+        textAlign="center"
+      >
+        <Heading size="3xl" mb={4}>Discover Unique Digital Art</Heading>
+        <Text fontSize="xl" mb={6}>Explore, buy, and sell rare digital art on the blockchain.</Text>
+        <Button rightIcon={<FaArrowRight />} colorScheme="teal" variant="solid">Get Started</Button>
+      </Flex>
 
-      <Container maxW="container.xl" centerContent>
+      {/* Highlighted Collections */}
+      <Heading size="lg" textAlign="center" my={10}>Featured Collections</Heading>
+      <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={6}>
+        <NFTCollectionPreview
+          title="Abstract Art"
+          image="/nft-marketplace-background.webp"
+          description="Dive into the world of abstraction."
+        />
+        <NFTCollectionPreview
+          title="Virtual Landscapes"
+          image="/nft-marketplace-background.webp"
+          description="Own a piece of virtual paradise."
+        />
+        {/* More collections previews */}
+      </Grid>
 
-        {/* Hero Section */}
-        <VStack my="10" spacing="5" textAlign="center" w="full">
-          <Heading color={textColor} as="h1" size="4xl" >
-            Discover, and collect Digital Art NFTs
-          </Heading>
-          <Text color={textColor} fontSize="xl" >
-            Digital marketplace for crypto collectibles and non-fungible tokens (NFTs). Buy, Sell, and discover exclusive digital assets.
-          </Text>
-          <NextLink href="/explore" passHref>
-            <Button size="lg" bg={bgColor}>
-              Explore Now
-            </Button>
-          </NextLink>
-          <HStack spacing="5">
-            <Text color={textColor} fontSize="xl">98k+ <span>Artwork</span></Text>
-            <Text color={textColor} fontSize="xl">12k+ <span>Auction</span></Text>
-            <Text color={textColor} fontSize="xl">15k+ <span>Artist</span></Text>
-          </HStack>
-        </VStack>
+      {/* Last nft sales */}
+      <Heading size="lg" textAlign="center" my={10}> Last nft sales </Heading>
+      <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={6}>
+        <NFTCollectionPreview
+          title="Abstract Art"
+          image="/nft-marketplace-background.webp"
+          description="Dive into the world of abstraction."
+        />
+        <NFTCollectionPreview
+          title="Virtual Landscapes"
+          image="/nft-marketplace-background.webp"
+          description="Own a piece of virtual paradise."
+        />
+        {/* More collections previews */}
+      </Grid>
 
-        <Divider my="8" />
+      {/* Site Features */}
+      <Heading size="lg" textAlign="center" my={10}>Why Choose Us</Heading>
+      <SimpleGrid columns={{ base: 1, md: 4 }} spacing={10}>
+        <Feature title="Mint NFTs" icon={FaPaintBrush}>Easily create and list your digital art.</Feature>
+        <Feature title="Trade Securely" icon={FaHandshake}>Secure transactions with blockchain technology.</Feature>
+        <Feature title="Earn Rewards" icon={FaLock}>Stake your NFTs and earn crypto rewards.</Feature>
+        <Feature title="Discover Rare Art" icon={FaEthereum}>Access exclusive digital artworks.</Feature>
+      </SimpleGrid>
 
-        {/* Featured Collections */}
-        <Box my="10" w="full">
-          <Heading as="h2" size="xl" mb="6" color="orange.400">
-            Featured Collections
-          </Heading>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing="6">
-            {/* Replace these placeholders with real content */}
-            {/* ... */}
-          </SimpleGrid>
-        </Box>
-
-        <Divider my="8" />
-
-        {/* Trending NFTs */}
-        <Box my="10" w="full">
-          <Heading as="h3" size="lg" mb="6" color="purple.400">
-            Trending NFTs
-          </Heading>
-          <Flex wrap="wrap" justify="center" gap="4">
-            {/* Replace these placeholders with real content */}
-            {/* ... */}
-          </Flex>
-        </Box>
-
-      </Container>
-    </>
+      {/* FAQ Section */}
+      <Box py={10} mt={10}>
+        <Heading size="lg" textAlign="center" mb={6}>FAQs</Heading>
+        <Accordion allowToggle>
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  What is an NFT?
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>
+              Non-Fungible Tokens (NFTs) represent ownership of unique digital items using blockchain technology.
+            </AccordionPanel>
+          </AccordionItem>
+          {/* Additional FAQs */}
+        </Accordion>
+      </Box>
+    </Container>
   );
 };
 
