@@ -114,7 +114,7 @@ const ToolFeature = ({ title, icon, description }) => (
     borderWidth="1px"
     shadow="lg"
   >
-    <Icon as={icon} w={10} h={10} color={useColorModeValue('teal.500', 'teal.200')} />
+    <Icon as={icon} w={10} h={10} color={useColorModeValue('purple.500', 'purple.200')} />
     <Heading size="md">{title}</Heading>
     <Text>{description}</Text>
   </VStack>
