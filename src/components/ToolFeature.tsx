@@ -10,7 +10,7 @@ const ToolFeature = ({ title, icon, description }) => (
     as={MotionBox}
     whileHover={{ scale: 1.05 }}
     transition="all 0.3s ease-out"
-    bg={useColorModeValue('white', 'gray.800')} // Utilisez `useColorModeValue('white', 'gray.800')` pour le thème sombre
+    bg={useColorModeValue('white', 'gray.800')}
     p={5}
     rounded="lg"
     borderWidth="1px"
@@ -18,7 +18,7 @@ const ToolFeature = ({ title, icon, description }) => (
     align="center"
     justify="center"
   >
-    <Icon as={icon} w={10} h={10} color="purple.500" /> {/* Ajustez la couleur selon le thème */}
+    <Icon as={icon} w={10} h={10} color={useColorModeValue('purple.500', 'purple.200')} /> {/* Ajustez la couleur selon le thème */}
     <Heading size="md" textAlign="center">{title}</Heading>
     <Text textAlign="center">{description}</Text>
   </VStack>

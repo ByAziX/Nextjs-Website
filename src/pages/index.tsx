@@ -27,7 +27,7 @@ import FAQSection from '../components/FAQSection';
 import SiteTools from '../components/SiteTools';
 import { GetServerSideProps } from 'next';
 import { getLastListedNFTs } from '../services/nftService';
-import { NFTListProps } from '../components/interfaces';
+import { NFTEntity, NFTListProps } from '../components/interfaces';
 
 const MotionBox = motion(Box);
 
@@ -48,22 +48,13 @@ const NFTCard = ({ image, title, currentBid }) => (
         Current Bid
       </Badge>
       <Box fontSize="lg" fontWeight="bold">
-        {currentBid} ETH
+        {currentBid} CAPS
       </Box>
     </Flex>
   </MotionBox>
 );
-// NFT Collection Preview Component
-const NFTCollectionPreview = ({ title, image, description }) => (
-  <GridItem colSpan={{ base: 2, md: 1 }} as={MotionBox} whileHover={{ scale: 1.05 }} transition="all 0.3s ease-out">
-    <Image src={image} alt={title} borderRadius="md" mb={4} />
-    <Heading size="md" mb={2}>{title}</Heading>
-    <Text fontSize="sm">{description}</Text>
-  </GridItem>
-);
 
-
-const IndexPage: React.FC<NFTListProps> = ({ nfts }) => {
+const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, last_nft }) => {
 
   return (
     <Container maxW="container.xl" p={0}>
@@ -92,9 +83,10 @@ const IndexPage: React.FC<NFTListProps> = ({ nfts }) => {
         </Box>
         <Box flex="1" ml={{ base: 0, md: 5 }}>
           <NFTCard
-            image="/nft-marketplace-background.webp"
-            title="A. Jordan"
-            currentBid="1.5"
+            key={last_nft.nftId}
+            image={last_nft.mediaUrl}
+            title={last_nft.metadata.title}
+            currentBid={last_nft.priceRounded}
           />
         </Box>
       </Flex>
@@ -124,8 +116,9 @@ const IndexPage: React.FC<NFTListProps> = ({ nfts }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const {nfts} = await getLastListedNFTs(5, 0);
-  return { props: { nfts} };
+  const { nfts } = await getLastListedNFTs(5, 0);
+  const last_nft = nfts[0];
+  return { props: { nfts, last_nft } };
 };
 
 export default IndexPage;
