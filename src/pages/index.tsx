@@ -60,15 +60,18 @@ const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, las
       </Flex>
 
       {/* Highlighted Collections */}
+      <Heading size="lg" textAlign="left" my={10}>Featured Collections</Heading>
+
       <VStack spacing={5} my="10">
-        <Heading size="lg" textAlign="center" my={10} textDecoration="underline">Featured Collections</Heading>
         <Carousel nfts={nfts} />
       </VStack>
         
 
       {/* Last nft sales */}
+      <Heading size="lg" textAlign="left" my={10} >Last nfts on sales</Heading>
+
+
       <VStack spacing={5} my="10">
-      <Heading size="lg" textAlign="center" my={10} textDecoration="underline">Last nft sales</Heading>
           <Carousel nfts={nfts} />
         </VStack>
 
