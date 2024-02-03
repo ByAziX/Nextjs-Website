@@ -92,10 +92,10 @@ const NFTDetailsPage = ({ nft }) => {
               </Text></>
             )}
             <Flex>
-              <Button colorScheme="blue" mr={3}>
+              <Button colorScheme="purple" mr={3}>
                 Buy Now
               </Button>
-              <Button variant="outline" colorScheme="blue">
+              <Button variant="outline" colorScheme="purple">
                 Make Offer
               </Button>
             </Flex>
