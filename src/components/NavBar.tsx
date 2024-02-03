@@ -1,21 +1,22 @@
 import React from 'react';
 import {
   Flex, Box, Text, Button, Spacer, useColorModeValue, IconButton,
-  VStack, useDisclosure, Center
+  VStack, useDisclosure, Center, Image, Input
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon, SearchIcon } from '@chakra-ui/icons';
 import { DarkModeSwitch } from './DarkModeSwitch';
 import dynamic from 'next/dynamic';
 import NextLink from 'next/link';
-import { FaHome, FaUserCircle, FaBoxOpen } from 'react-icons/fa'; // Example icons
+import { FaHome, FaUserCircle, FaBoxOpen } from 'react-icons/fa';
 import WalletModal from '../modals/WalletModal';
+import SearchBar from './SearchBar';
 
 const Connect = dynamic(() => import('./Connect').then(m => m.Connect), {
   ssr: false,
 });
 
 const NavBar: React.FC = () => {
-  
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const bgColor = useColorModeValue('light.bg', 'dark.bg');
   const textColor = useColorModeValue('light.text', 'dark.text');
@@ -32,15 +33,23 @@ const NavBar: React.FC = () => {
       bg={bgColor}
       color={textColor}
     >
-      <Box>
+      <Flex align="center">
         <NextLink href="/" passHref>
-          <Text fontSize="xl" fontWeight="bold" cursor="pointer">
-            NFT Marketplace
-          </Text>
+          <Flex align="center" cursor="pointer">
+            <Image src="./nft-marketplace-background.webp" alt="Logo" boxSize="30px" mr="3" />
+            <Text fontSize="xl" fontWeight="bold" mr="5">
+              NFT Marketplace
+            </Text>
+          </Flex>
         </NextLink>
-      </Box>
+      </Flex>
 
-      <Spacer />
+      {/* Barre de recherche complète pour les écrans plus grands */}
+      <Box flex="1" display={{ base: 'none', md: 'block' }}>
+        <Center>
+          <SearchBar onSearch={(query) => console.log('Searching for:', query)} />
+        </Center>
+      </Box>
 
       <IconButton
         display={['flex', 'flex', 'none', 'none']}
@@ -50,29 +59,35 @@ const NavBar: React.FC = () => {
         size="lg"
       />
 
-<Box flexBasis={{ base: "100%", md: "auto" }}>
-    <Flex
-      display={[isOpen ? "flex" : "none", isOpen ? "flex" : "none", "flex", "flex"]}
-      ml={[0, 0, 10]}
-      align="center"
-      justify={[isOpen ? "center" : "space-between", isOpen ? "center" : "space-between", "space-between", "space-between"]}
-      direction={["column", "column", "row", "row"]}
-      pt={[4, 4, 0, 0]}
-      gap={4}
-    >
-      {/* Pour le mode hamburger (écrans petits), les boutons sont empilés verticalement et centrés */}
-      {/* Sur les écrans plus larges, ils sont alignés en ligne */}
-      <NextLink href="/explore" passHref>
-        <Button leftIcon={<FaBoxOpen />} _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>Explore</Button>
-      </NextLink>
-      <Button leftIcon={<FaUserCircle />} _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>Create</Button>
-      <Button leftIcon={<FaHome />} _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>My Collection</Button>
+      {/* Barre de recherche pour les appareils mobiles */}
+      <Box
+        display={[isOpen ? 'block' : 'none', isOpen ? 'block' : 'none', 'none', 'none']}
+        flexBasis={{ base: "100%", md: "auto" }}
+        mt={[4, 4, 0, 0]}
+      >
+          <SearchBar onSearch={(query) => console.log('Searching for:', query)} />
+      </Box>
+      
 
-      <Connect />
-      <DarkModeSwitch />
+      <Flex
+        flexBasis={{ base: "100%", md: "auto" }}
+        display={[isOpen ? "flex" : "none", isOpen ? "flex" : "none", "flex", "flex"]}
+        ml={[0, 0, 5]}
+        align="center"
+        justify={[isOpen ? "center" : "space-between", isOpen ? "center" : "space-between", "space-between", "space-between"]}
+        direction={["column", "column", "row", "row"]}
+        pt={[4, 4, 0, 0]}
+        gap={5}
+      >
+        <NextLink href="/explore" passHref>
+          <Button leftIcon={<FaBoxOpen />} _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>Explore</Button>
+        </NextLink>
+        <Button leftIcon={<FaUserCircle />} _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>Create</Button>
+        <Button leftIcon={<FaHome />} _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>My Collection</Button>
+        <Connect />
+        <DarkModeSwitch />
+      </Flex>
     </Flex>
-  </Box>
-</Flex>
   );
 };
 
