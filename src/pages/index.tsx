@@ -8,7 +8,7 @@ import {
   Container,
   SimpleGrid,
   VStack,
-
+  Icon,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import FAQSection from '../components/FAQSection';
@@ -18,15 +18,12 @@ import { getLastListedNFTs } from '../services/nftService';
 import { NFTEntity, NFTListProps } from '../components/interfaces';
 import NFTCard from '../components/NFTCard';
 import Carousel from '../components/Carousel';
-
-
+import { FiShoppingCart } from 'react-icons/fi';
 
 
 const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, last_nft }) => {
-
   return (
     <Container maxW="container.xl" p={0}>
-      {/* Text à gauche + une card nft a droit */}
       <Flex
         direction={{ base: 'column', md: 'row' }}
         align="center"
@@ -35,16 +32,16 @@ const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, las
         p={5}
       >
         <Box flex="1" mr={{ base: 0, md: 5 }}>
-          <Heading as="h2" size="xl" mb={4}>
-            Collect & Sell Super Rare NFTs
-          </Heading>
+        <Heading as="h2" size="xl" mb={4}>
+  Collect & <Text as="span" bgClip="text" bgGradient="linear(to-l, #7928CA, #9A4DFF)" fontWeight="extrabold">Sell Super Rare NFTs</Text>
+</Heading>
+
           <Text fontSize="lg" mb={4}>
             Produce an exclusive NFT collection of over 10,000 items by uploading the necessary layers, and prepare to market your collection for sale.
           </Text>
           <Button colorScheme="purple" mb={4} marginRight={2}>
             Let's Start
           </Button>
-          
           <Button variant="outline" colorScheme="purple" mb={4}>
             Join Discord
           </Button>
@@ -53,31 +50,41 @@ const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, las
           <NFTCard
             key={last_nft.nftId}
             nft={last_nft as NFTEntity}
-            width={"auto"} // Pass the width prop
-            height={"auto"} // Pass the height prop
+            width={"auto"}
+            height={"auto"}
           />
         </Box>
       </Flex>
 
-      {/* Highlighted Collections */}
-      <Heading size="lg" textAlign="left" my={10}>Featured Collections</Heading>
+
+
+      <Heading size="lg" display="flex" alignItems="center">
+
+<Text as="span" fontWeight="bold">Featured Collections</Text> on Sales
+</Heading>
+<Text fontSize="md" color="gray.500">
+Discover the latest treasures from our community
+</Text>
+      
 
       <VStack spacing={5} my="10">
         <Carousel nfts={nfts} />
       </VStack>
-        
 
-      {/* Last nft sales */}
-      <Heading size="lg" textAlign="left" my={10} >Last nfts on sales</Heading>
+    <Heading size="lg" display="flex" alignItems="center">
 
+      <Text as="span" fontWeight="bold">Last NFTs</Text> on Sales
+    </Heading>
+    <Text fontSize="md" color="gray.500">
+      Discover the latest treasures from our community
+    </Text>
 
       <VStack spacing={5} my="10">
-          <Carousel nfts={nfts} />
-        </VStack>
+        <Carousel nfts={nfts} />
+      </VStack>
 
       <SiteTools />
       <FAQSection />
-
     </Container>
   );
 };
@@ -89,4 +96,3 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 export default IndexPage;
-
