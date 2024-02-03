@@ -17,7 +17,6 @@ import { GetServerSideProps } from 'next';
 import { getLastListedNFTs } from '../services/nftService';
 import { NFTEntity, NFTListProps } from '../components/interfaces';
 import NFTCard from '../components/NFTCard';
-import NFTCardHome from '../components/NFTCardHome';
 import Carousel from '../components/Carousel';
 
 
@@ -51,23 +50,25 @@ const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, las
           </Button>
         </Box>
         <Box flex="1" ml={{ base: 0, md: 5 }}>
-          <NFTCardHome
+          <NFTCard
             key={last_nft.nftId}
-            nft={last_nft}
+            nft={last_nft as NFTEntity}
+            width={"550px"} // Pass the width prop
+            height={"auto"} // Pass the height prop
           />
         </Box>
       </Flex>
 
       {/* Highlighted Collections */}
       <VStack spacing={5} my="10">
-        <Heading size="lg" textAlign="center" my={10}>Featured Collections</Heading>
+        <Heading size="lg" textAlign="center" my={10} textDecoration="underline">Featured Collections</Heading>
         <Carousel nfts={nfts} />
       </VStack>
         
 
       {/* Last nft sales */}
       <VStack spacing={5} my="10">
-      <Heading size="lg" textAlign="center" my={10}>Last nft sales</Heading>
+      <Heading size="lg" textAlign="center" my={10} textDecoration="underline">Last nft sales</Heading>
           <Carousel nfts={nfts} />
         </VStack>
 
