@@ -51,8 +51,8 @@ const NFTDetailsPage = ({ nft }) => {
           <Image
             src={nft.mediaUrl || 'https://via.placeholder.com/400'}
             alt={`NFT ${nft.metadata?.title || ''}`}
-            objectFit="cover"
-            boxSize="400px"
+            objectFit="contain"
+            boxSize="auto"
             borderRadius="lg"
           />
         </Box>
