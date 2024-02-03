@@ -68,9 +68,7 @@ const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, las
       {/* Last nft sales */}
       <VStack spacing={5} my="10">
       <Heading size="lg" textAlign="center" my={10}>Last nft sales</Heading>
-          <SimpleGrid columns={{ base: 2, md: 6 }} spacing="4">
-            {nfts.map((nft) => <NFTCard key={nft.nftId} nft={nft} />)}
-          </SimpleGrid>
+          <Carousel nfts={nfts} />
         </VStack>
 
       <SiteTools />
