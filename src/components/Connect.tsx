@@ -14,11 +14,13 @@ import {
   IconButton,
   useClipboard,
   useColorModeValue,
-  useDisclosure
+  useDisclosure,
+  Icon
 } from '@chakra-ui/react';
 import { CopyIcon, CloseIcon } from '@chakra-ui/icons';
 import NextLink from 'next/link';
 import WalletModal from '../modals/WalletModal';
+import { FaWallet } from 'react-icons/fa';
 
 type TExtensionState = {
   data?: {
@@ -104,7 +106,7 @@ export const Connect = () => {
           <IconButton aria-label="Disconnect" icon={<CloseIcon />} onClick={handleDisconnect} />
         </HStack>
       ) : (
-        <Button onClick={onOpen} bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>
+        <Button leftIcon={<Icon as={FaWallet} />} onClick={onOpen} bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>
           Connect
         </Button>
       )}

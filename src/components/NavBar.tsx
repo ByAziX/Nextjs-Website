@@ -1,14 +1,15 @@
 import React from 'react';
 import {
-  Flex, Box, Text, Button, Spacer, useColorModeValue, IconButton,
-  VStack, useDisclosure, Center, Image, Input
+  Flex, Box, Text, Button, Spacer, useColorModeValue, IconButton, useDisclosure, Center, Image, Input
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, SearchIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { DarkModeSwitch } from './DarkModeSwitch';
 import dynamic from 'next/dynamic';
 import NextLink from 'next/link';
-import { FaHome, FaUserCircle, FaBoxOpen } from 'react-icons/fa';
-import WalletModal from '../modals/WalletModal';
+import { FaBoxOpen } from 'react-icons/fa';
+import {PiAddressBookBold} from 'react-icons/pi';
+import { IoBookSharp } from "react-icons/io5";
+
 import SearchBar from './SearchBar';
 
 const Connect = dynamic(() => import('./Connect').then(m => m.Connect), {
@@ -44,7 +45,6 @@ const NavBar: React.FC = () => {
         </NextLink>
       </Flex>
 
-      {/* Barre de recherche complète pour les écrans plus grands */}
       <Box flex="1" display={{ base: 'none', md: 'block' }}>
         <Center>
           <SearchBar onSearch={(query) => console.log('Searching for:', query)} />
@@ -56,10 +56,10 @@ const NavBar: React.FC = () => {
         onClick={isOpen ? onClose : onOpen}
         icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
         aria-label="Open Menu"
+        bg="transparent"
         size="lg"
       />
 
-      {/* Barre de recherche pour les appareils mobiles */}
       <Box
         display={[isOpen ? 'block' : 'none', isOpen ? 'block' : 'none', 'none', 'none']}
         flexBasis={{ base: "100%", md: "auto" }}
@@ -82,8 +82,8 @@ const NavBar: React.FC = () => {
         <NextLink href="/explore" passHref>
           <Button leftIcon={<FaBoxOpen />} bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>Explore</Button>
         </NextLink>
-        <Button leftIcon={<FaUserCircle />}  bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>Create</Button>
-        <Button leftIcon={<FaHome />}  bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>My Collection</Button>
+        <Button leftIcon={<PiAddressBookBold />}  bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>Create</Button>
+        <Button leftIcon={<IoBookSharp />}  bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>My Collection</Button>
         <Connect />
         <DarkModeSwitch />
       </Flex>
