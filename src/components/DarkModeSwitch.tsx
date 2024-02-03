@@ -6,13 +6,14 @@ export const DarkModeSwitch = () => {
   const isDark = colorMode === "dark";
   const bgColor = useColorModeValue('light.bg', 'dark.bg');
   const textColor = useColorModeValue('light.text', 'dark.text');
-
+  const buttonHoverBg = useColorModeValue('purple.500', 'purple.200');
+  const buttonActiveBg = useColorModeValue('purple.700', 'purple.400');
   return (
     <IconButton
       icon={isDark ? <SunIcon /> : <MoonIcon />}
       aria-label="Toggle Theme"
-      bg={bgColor}
-      onClick={toggleColorMode}
+      bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg } } 
+      onClick={toggleColorMode} 
     />
   );
 };

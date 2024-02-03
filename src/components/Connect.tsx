@@ -104,7 +104,7 @@ export const Connect = () => {
           <IconButton aria-label="Disconnect" icon={<CloseIcon />} onClick={handleDisconnect} />
         </HStack>
       ) : (
-        <Button onClick={onOpen} _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>
+        <Button onClick={onOpen} bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>
           Connect
         </Button>
       )}

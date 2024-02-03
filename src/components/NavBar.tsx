@@ -72,18 +72,18 @@ const NavBar: React.FC = () => {
       <Flex
         flexBasis={{ base: "100%", md: "auto" }}
         display={[isOpen ? "flex" : "none", isOpen ? "flex" : "none", "flex", "flex"]}
-        ml={[0, 0, 5]}
+        ml={[0, 0, 4]}
         align="center"
         justify={[isOpen ? "center" : "space-between", isOpen ? "center" : "space-between", "space-between", "space-between"]}
         direction={["column", "column", "row", "row"]}
         pt={[4, 4, 0, 0]}
-        gap={5}
+        gap={4}
       >
         <NextLink href="/explore" passHref>
-          <Button leftIcon={<FaBoxOpen />} _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>Explore</Button>
+          <Button leftIcon={<FaBoxOpen />} bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>Explore</Button>
         </NextLink>
-        <Button leftIcon={<FaUserCircle />} _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>Create</Button>
-        <Button leftIcon={<FaHome />} _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>My Collection</Button>
+        <Button leftIcon={<FaUserCircle />}  bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>Create</Button>
+        <Button leftIcon={<FaHome />}  bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>My Collection</Button>
         <Connect />
         <DarkModeSwitch />
       </Flex>
