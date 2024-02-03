@@ -52,6 +52,7 @@ const Carousel = ({ nfts }) => {
         position="absolute"
         left="0"
         zIndex={2}
+        bg="transparent"
       />
       <Box
         ref={scrollRef}
@@ -75,6 +76,8 @@ const Carousel = ({ nfts }) => {
         position="absolute"
         right="0"
         zIndex={2}
+        bg="transparent"
+
       />
     </Flex>
   );
