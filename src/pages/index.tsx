@@ -53,7 +53,7 @@ const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, las
           <NFTCard
             key={last_nft.nftId}
             nft={last_nft as NFTEntity}
-            width={"550px"} // Pass the width prop
+            width={"auto"} // Pass the width prop
             height={"auto"} // Pass the height prop
           />
         </Box>
