@@ -77,8 +77,10 @@ const NFTCard: React.FC<{ nft: NFTEntity; width?: string | number; height?: stri
         )}
 
         {nft.isListed && (
-          <Badge colorScheme="green">Listed for sale</Badge>
-        )}
+            <Badge colorScheme="green">Listed for sale</Badge>
+            ) || (
+            <Badge colorScheme="red">Not listed</Badge>
+              )}
         {nft.priceRounded && (
           <Text fontSize="xs" fontWeight="bold">
             Price: {nft.priceRounded} CAPS

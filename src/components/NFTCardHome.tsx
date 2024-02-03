@@ -45,12 +45,9 @@ const NFTCardHome: React.FC<{ nft: NFTEntity }> = ({ nft }) => (
     shadow="lg"
   >
     <Image borderRadius="lg" src={nft.mediaUrl} alt={nft.metadata?.title} mb={4} />
-    <Heading size="md" mb={2}>{nft.metadata?.title}</Heading>
     <VStack p="2" align="left" spacing={1}>
         {nft.metadata?.title && (
-          <Text fontSize="md" fontWeight="bold">
-            {nft.metadata.title}
-          </Text>
+        <Heading size="md" mb={2}>{nft.metadata?.title}</Heading>
         )}
         <Tooltip label="NFT id" aria-label="NFT id">
 
@@ -68,12 +65,15 @@ const NFTCardHome: React.FC<{ nft: NFTEntity }> = ({ nft }) => (
         )}
 
         {nft.isListed && (
-          <><Badge colorScheme="green">Listed for sale</Badge><Text fontWeight="bold" my={4}></Text><Tooltip label="NFT price" aria-label="NFT price">
+                <Badge colorScheme="green">Listed for sale</Badge>
+                ) || (
+                <Badge colorScheme="red">Not listed</Badge>
+                )}
+        {nft.priceRounded && (
             <Text fontSize="xs" fontWeight="bold">
-              Price: {nft.priceRounded} CAPS
+                Price: {nft.priceRounded} CAPS
             </Text>
-          </Tooltip></>
-        )}
+                )}
       </VStack>
   </MotionBox>
 );
