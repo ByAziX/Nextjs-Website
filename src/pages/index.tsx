@@ -25,6 +25,9 @@ import { FaEthereum, FaPaintBrush, FaHandshake, FaLock, FaArrowRight, FaCoins, F
 import { motion } from 'framer-motion';
 import FAQSection from '../components/FAQSection';
 import SiteTools from '../components/SiteTools';
+import { GetServerSideProps } from 'next';
+import { getLastListedNFTs } from '../services/nftService';
+import { NFTListProps } from '../components/interfaces';
 
 const MotionBox = motion(Box);
 
@@ -60,27 +63,7 @@ const NFTCollectionPreview = ({ title, image, description }) => (
 );
 
 
-
-// ToolFeature Component for individual tools
-const ToolFeature = ({ title, icon, description }) => (
-  <VStack
-    as={MotionBox}
-    whileHover={{ scale: 1.05 }}
-    transition="all 0.3s ease-out"
-    bg={useColorModeValue('white', 'gray.800')}
-    p={5}
-    rounded="lg"
-    borderWidth="1px"
-    shadow="lg"
-  >
-    <Icon as={icon} w={10} h={10} color={useColorModeValue('purple.500', 'purple.200')} />
-    <Heading size="md">{title}</Heading>
-    <Text>{description}</Text>
-  </VStack>
-);
-
-
-const IndexPage = () => {
+const IndexPage: React.FC<NFTListProps> = ({ nfts }) => {
 
   return (
     <Container maxW="container.xl" p={0}>
@@ -117,36 +100,21 @@ const IndexPage = () => {
       </Flex>
 
       {/* Highlighted Collections */}
+      <VStack spacing={5} my="10">
       <Heading size="lg" textAlign="center" my={10}>Featured Collections</Heading>
-      <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={6}>
-        <NFTCollectionPreview
-          title="Abstract Art"
-          image="/nft-marketplace-background.webp"
-          description="Dive into the world of abstraction."
-        />
-        <NFTCollectionPreview
-          title="Virtual Landscapes"
-          image="/nft-marketplace-background.webp"
-          description="Own a piece of virtual paradise."
-        />
-        {/* More collections previews */}
-      </Grid>
+          <SimpleGrid columns={{ base: 1, md: 5 }} spacing="4">
+            {nfts.map((nft) => <NFTCard key={nft.nftId} image={nft.mediaUrl} title={nft.metadata.title} currentBid={nft.priceRounded} />)}
+          </SimpleGrid>
+        </VStack>
+        
 
       {/* Last nft sales */}
-      <Heading size="lg" textAlign="center" my={10}> Last nft sales </Heading>
-      <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={6}>
-        <NFTCollectionPreview
-          title="Abstract Art"
-          image="/nft-marketplace-background.webp"
-          description="Dive into the world of abstraction."
-        />
-        <NFTCollectionPreview
-          title="Virtual Landscapes"
-          image="/nft-marketplace-background.webp"
-          description="Own a piece of virtual paradise."
-        />
-        {/* More collections previews */}
-      </Grid>
+      <VStack spacing={5} my="10">
+      <Heading size="lg" textAlign="center" my={10}>Last nft sales</Heading>
+          <SimpleGrid columns={{ base: 1, md: 5 }} spacing="4">
+            {nfts.map((nft) => <NFTCard key={nft.nftId} image={nft.mediaUrl} title={nft.metadata.title} currentBid={nft.priceRounded} />)}
+          </SimpleGrid>
+        </VStack>
 
       <SiteTools />
       <FAQSection />
@@ -155,4 +123,10 @@ const IndexPage = () => {
   );
 };
 
+export const getServerSideProps: GetServerSideProps = async () => {
+  const {nfts} = await getLastListedNFTs(5, 0);
+  return { props: { nfts} };
+};
+
 export default IndexPage;
+
