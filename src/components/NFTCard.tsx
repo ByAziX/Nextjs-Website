@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Box, Image, Text, Skeleton, VStack, useColorModeValue, Tooltip, Link, Badge, Heading } from '@chakra-ui/react';
+import { Box, Image, Text, Skeleton, VStack, useColorModeValue, Tooltip, Link, Badge } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import {NFTEntity} from './interfaces'
+import { NFTEntity } from './interfaces';
+import { motion } from 'framer-motion';
 
+const MotionBox = motion(Box);
 
-const NFTCard: React.FC<{ nft: NFTEntity }> = ({ nft }) => {
+const NFTCard: React.FC<{ nft: NFTEntity; width?: string | number; height?: string | number }> = ({
+  nft,
+  width = '200px', // Valeur par défaut pour la largeur
+  height = 'auto', // Valeur par défaut pour la hauteur
+}) => {
   const bgColor = useColorModeValue('light.bg', 'dark.bg');
   const textColor = useColorModeValue('light.text', 'dark.text');
 
@@ -25,21 +31,19 @@ const NFTCard: React.FC<{ nft: NFTEntity }> = ({ nft }) => {
   };
 
   return (
-    
-  
-
-    <Box
+    <MotionBox
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
       bg={bgColor}
       color={textColor}
       shadow="md"
+      whileHover={{ scale: 1.02, shadow: "lg" }}
       onClick={handleBoxClick}
       cursor="pointer"
-      _hover={{ shadow: "lg", transform: "scale(1.02)" }} 
-      width={'200px'} 
-      height="auto"
+      width={width} 
+      height={height}
+      transition={{ duration: 0.2 }}
     >
       <Box position="relative" height="200px" overflow="hidden">
         {isLoading && <Skeleton height="200px" />}
@@ -73,14 +77,15 @@ const NFTCard: React.FC<{ nft: NFTEntity }> = ({ nft }) => {
         )}
 
         {nft.isListed && (
-          <><Badge colorScheme="green">Listed for sale</Badge><Text fontWeight="bold" my={4}></Text><Tooltip label="NFT price" aria-label="NFT price">
-            <Text fontSize="xs" fontWeight="bold">
-              Price: {nft.priceRounded} CAPS
-            </Text>
-          </Tooltip></>
+          <Badge colorScheme="green">Listed for sale</Badge>
+        )}
+        {nft.priceRounded && (
+          <Text fontSize="xs" fontWeight="bold">
+            Price: {nft.priceRounded} CAPS
+          </Text>
         )}
       </VStack>
-    </Box>
+    </MotionBox>
   );
 };
 
