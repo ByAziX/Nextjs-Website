@@ -61,6 +61,22 @@ const Carousel = ({ nfts }) => {
         w="full"
         p={2}
         scrollBehavior="smooth"
+        sx={{
+          '&::-webkit-scrollbar': {
+            height: '8px',
+            backgroundColor: 'rgba(0, 0, 0, 0.05)',
+          },
+          '&::-webkit-scrollbar-track': {
+            borderRadius: '10px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            borderRadius: '10px',
+            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            '&:hover': {
+              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            },
+          },
+        }}
       >
         {nfts.map((nft) => (
           <Box key={nft.nftId} minWidth="260px" flex="none" mx="8px">

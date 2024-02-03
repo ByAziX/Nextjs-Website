@@ -9,6 +9,7 @@ import {
   SimpleGrid,
   VStack,
   Icon,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import FAQSection from '../components/FAQSection';
@@ -18,10 +19,11 @@ import { getLastListedNFTs } from '../services/nftService';
 import { NFTEntity, NFTListProps } from '../components/interfaces';
 import NFTCard from '../components/NFTCard';
 import Carousel from '../components/Carousel';
-import { FiShoppingCart } from 'react-icons/fi';
 
 
 const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, last_nft }) => {
+  const bgGradient = useColorModeValue('linear(to-l, #7928CA, #9A4DFF)', 'linear(to-l, #9A4DFF, #D6A4FF)');
+
   return (
     <Container maxW="container.xl" p={0}>
       <Flex
@@ -33,8 +35,8 @@ const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, las
       >
         <Box flex="1" mr={{ base: 0, md: 5 }}>
         <Heading as="h2" size="xl" mb={4}>
-  Collect & <Text as="span" bgClip="text" bgGradient="linear(to-l, #7928CA, #9A4DFF)" fontWeight="extrabold">Sell Super Rare NFTs</Text>
-</Heading>
+        Collect & <Text as="span" bgClip="text" bgGradient={bgGradient} fontWeight="extrabold">Sell Super Rare NFTs</Text>
+      </Heading>
 
           <Text fontSize="lg" mb={4}>
             Produce an exclusive NFT collection of over 10,000 items by uploading the necessary layers, and prepare to market your collection for sale.
@@ -60,11 +62,11 @@ const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, las
 
       <Heading size="lg" display="flex" alignItems="center">
 
-<Text as="span" fontWeight="bold">Featured Collections</Text> on Sales
-</Heading>
-<Text fontSize="md" color="gray.500">
-Discover the latest treasures from our community
-</Text>
+      <Text as="span" fontWeight="bold">Featured Collections</Text>
+      </Heading>
+      <Text fontSize="md" color="gray.500">
+      Discover the latest treasures from our community
+      </Text>
       
 
       <VStack spacing={5} my="10">
@@ -73,7 +75,7 @@ Discover the latest treasures from our community
 
     <Heading size="lg" display="flex" alignItems="center">
 
-      <Text as="span" fontWeight="bold">Last NFTs</Text> on Sales
+      <Text as="span" fontWeight="bold">Last NFTs on Sales</Text>
     </Heading>
     <Text fontSize="md" color="gray.500">
       Discover the latest treasures from our community
