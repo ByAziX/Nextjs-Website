@@ -8,12 +8,14 @@ import { DarkModeSwitch } from './DarkModeSwitch';
 import dynamic from 'next/dynamic';
 import NextLink from 'next/link';
 import { FaHome, FaUserCircle, FaBoxOpen } from 'react-icons/fa'; // Example icons
+import WalletModal from '../modals/WalletModal';
 
 const Connect = dynamic(() => import('./Connect').then(m => m.Connect), {
   ssr: false,
 });
 
 const NavBar: React.FC = () => {
+  
   const { isOpen, onOpen, onClose } = useDisclosure();
   const bgColor = useColorModeValue('light.bg', 'dark.bg');
   const textColor = useColorModeValue('light.text', 'dark.text');
@@ -67,7 +69,6 @@ const NavBar: React.FC = () => {
       <Button leftIcon={<FaHome />} _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>My Collection</Button>
 
       <Connect />
-
       <DarkModeSwitch />
     </Flex>
   </Box>
