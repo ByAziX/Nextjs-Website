@@ -18,6 +18,7 @@ import { getLastListedNFTs } from '../services/nftService';
 import { NFTEntity, NFTListProps } from '../components/interfaces';
 import NFTCard from '../components/NFTCard';
 import NFTCardHome from '../components/NFTCardHome';
+import Carousel from '../components/Carousel';
 
 
 
@@ -59,11 +60,9 @@ const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, las
 
       {/* Highlighted Collections */}
       <VStack spacing={5} my="10">
-      <Heading size="lg" textAlign="center" my={10}>Featured Collections</Heading>
-          <SimpleGrid columns={{ base: 2, md: 6 }} spacing="4">
-            {nfts.map((nft) => <NFTCard key={nft.nftId} nft={nft} />)}
-          </SimpleGrid>
-        </VStack>
+        <Heading size="lg" textAlign="center" my={10}>Featured Collections</Heading>
+        <Carousel nfts={nfts} />
+      </VStack>
         
 
       {/* Last nft sales */}
@@ -82,7 +81,7 @@ const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, las
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { nfts } = await getLastListedNFTs(6, 0);
+  const { nfts } = await getLastListedNFTs(10, 0);
   const last_nft = nfts[0];
   return { props: { nfts, last_nft } };
 };
