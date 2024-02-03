@@ -81,7 +81,7 @@ const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, las
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { nfts } = await getLastListedNFTs(10, 0);
+  const { nfts } = await getLastListedNFTs(6, 0);
   const last_nft = nfts[0];
   return { props: { nfts, last_nft } };
 };
