@@ -9,8 +9,8 @@ const MotionBox = motion(Box);
 
 const NFTCard: React.FC<{ nft: NFTEntity; width?: string | number; height?: string | number }> = ({
   nft,
-  width = '200px', // Valeur par défaut pour la largeur
-  height = 'auto', // Valeur par défaut pour la hauteur
+  width = '200px', 
+  height = '340px', // auto si jamais
 }) => {
   const bgColor = useColorModeValue('light.bg', 'dark.bg');
   const textColor = useColorModeValue('light.text', 'dark.text');
