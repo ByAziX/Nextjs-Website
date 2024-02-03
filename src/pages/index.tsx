@@ -15,13 +15,14 @@ import { motion } from 'framer-motion';
 import FAQSection from '../components/FAQSection';
 import SiteTools from '../components/SiteTools';
 import { GetServerSideProps } from 'next';
-import { getLastListedNFTs } from '../services/nftService';
-import { NFTEntity, NFTListProps } from '../components/interfaces';
+import { getCollections, getLastListedNFTs } from '../services/nftService';
+import { NFTEntity, IndexPageProps,CollectionEntity } from '../components/interfaces';
 import NFTCard from '../components/NFTCard';
 import Carousel from '../components/Carousel';
+import CollectionCard from '../components/CollectionCard';
 
 
-const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, last_nft }) => {
+const IndexPage: React.FC<IndexPageProps> = ({ nfts, last_nft, collections }) => {
   const bgGradient = useColorModeValue('linear(to-l, #7928CA, #9A4DFF)', 'linear(to-l, #9A4DFF, #D6A4FF)');
 
   return (
@@ -51,7 +52,7 @@ const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, las
         <Box flex="1" ml={{ base: 0, md: 5 }}>
           <NFTCard
             key={last_nft.nftId}
-            nft={last_nft as NFTEntity}
+            item={last_nft as NFTEntity}
             width={"auto"}
             height={"auto"}
           />
@@ -70,7 +71,7 @@ const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, las
       
 
       <VStack spacing={5} my="10">
-        <Carousel nfts={nfts} />
+      <Carousel items={collections} CardComponent={CollectionCard} />
       </VStack>
 
     <Heading size="lg" display="flex" alignItems="center">
@@ -82,19 +83,22 @@ const IndexPage: React.FC<NFTListProps & { last_nft: NFTEntity }> = ({ nfts, las
     </Text>
 
       <VStack spacing={5} my="10">
-        <Carousel nfts={nfts} />
+      <Carousel items={nfts} CardComponent={NFTCard} />
+
       </VStack>
 
       <SiteTools />
       <FAQSection />
+      
     </Container>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const { nfts } = await getLastListedNFTs(6, 0);
+  const {collections} = await getCollections(6, 0);
   const last_nft = nfts[0];
-  return { props: { nfts, last_nft } };
+  return { props: { nfts, last_nft,collections } };
 };
 
 export default IndexPage;

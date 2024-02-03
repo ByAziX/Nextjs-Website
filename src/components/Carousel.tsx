@@ -1,99 +1,68 @@
+// Carousel.js ou Carousel.tsx si vous utilisez TypeScript
+
 import React, { useRef, useState, useEffect } from 'react';
 import { Box, IconButton, Flex } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import NFTCard from './NFTCard';
 
-const Carousel = ({ nfts }) => {
+const Carousel = ({ items, CardComponent }) => {
+  console.log(items);
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(nfts.length > 6);
-
-  // Supposons que la largeur de chaque NFTCard est de 260px et que la marge entre les cartes est de 16px.
-  // Ajustez ces valeurs en fonction de votre mise en page réelle.
-  const cardWidthWithMargin = 260 + 16; // La largeur de la carte plus la marge.
-  const scrollAmount = cardWidthWithMargin * 6; // La quantité à défiler pour 6 cartes.
-
-  const scroll = (direction) => {
-    if (scrollRef.current) {
-      const newScrollPosition = scrollRef.current.scrollLeft + (direction * scrollAmount);
-      scrollRef.current.scrollTo({ left: newScrollPosition, behavior: 'smooth' });
-    }
-  };
-
-  const checkScrollButtons = () => {
-    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-    setCanScrollLeft(scrollLeft > 0);
-    setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
-  };
+  const [canScrollRight, setCanScrollRight] = useState(items.length > 6);
 
   useEffect(() => {
-    // Ajoute une fonction de vérification pour les boutons de défilement lors du montage
+    const checkScrollButtons = () => {
+      if (scrollRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+        setCanScrollLeft(scrollLeft > 0);
+        setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
+      }
+    };
+
     checkScrollButtons();
+    // Ajoute l'écouteur d'événement
     const scrollElement = scrollRef.current;
-    // Écoutez l'événement de défilement pour ajuster l'état des boutons de navigation
-    const handleScroll = () => {
-      checkScrollButtons();
-    };
+    scrollElement.addEventListener('scroll', checkScrollButtons, { passive: true });
 
-    scrollElement.addEventListener('scroll', handleScroll, { passive: true });
-
+    // Supprime l'écouteur d'événement au démontage
     return () => {
-      scrollElement.removeEventListener('scroll', handleScroll);
+      scrollElement.removeEventListener('scroll', checkScrollButtons);
     };
-  }, []); // Les crochets vides signifient que cet effet ne s'exécutera qu'au montage.
+  }, [items.length]); // Dépendance aux items pour recalculer lors du changement
+
+  const scroll = (direction) => {
+    const scrollAmount = scrollRef.current.offsetWidth;
+    scrollRef.current.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+  };
 
   return (
     <Flex alignItems="center" justifyContent="center" position="relative" w="full">
       <IconButton
+        onClick={() => scroll(-1)}
         aria-label="Scroll left"
         icon={<ChevronLeftIcon />}
         isDisabled={!canScrollLeft}
-        onClick={() => scroll(-1)}
         position="absolute"
-        left="0"
+        left={0}
         zIndex={2}
         bg="transparent"
       />
-      <Box
-        ref={scrollRef}
-        display="flex"
-        overflowX="auto"
-        w="full"
-        p={2}
-        scrollBehavior="smooth"
-        sx={{
-          '&::-webkit-scrollbar': {
-            height: '8px',
-            backgroundColor: 'rgba(0, 0, 0, 0.05)',
-          },
-          '&::-webkit-scrollbar-track': {
-            borderRadius: '10px',
-          },
-          '&::-webkit-scrollbar-thumb': {
-            borderRadius: '10px',
-            backgroundColor: 'rgba(0, 0, 0, 0.2)',
-            '&:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.3)',
-            },
-          },
-        }}
-      >
-        {nfts.map((nft) => (
-          <Box key={nft.nftId} minWidth="260px" flex="none" mx="8px">
-            <NFTCard nft={nft} />
+      <Box ref={scrollRef} display="flex" overflowX="auto" w="full">
+        {items.map((item, index) => (
+          <Box key={index} p="4">
+            <CardComponent item={item} />
           </Box>
         ))}
       </Box>
       <IconButton
+        onClick={() => scroll(1)}
         aria-label="Scroll right"
         icon={<ChevronRightIcon />}
         isDisabled={!canScrollRight}
-        onClick={() => scroll(1)}
         position="absolute"
-        right="0"
+        right={0}
         zIndex={2}
         bg="transparent"
-
       />
     </Flex>
   );

@@ -29,7 +29,7 @@ const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) => {
     {`Explore ${totalCount} NFTs`}
   </Heading>
       <SimpleGrid columns={{ base: 2, md: 6 }} spacing="4">
-        {nfts.map((nft) => <NFTCard key={nft.nftId} nft={nft} />)}
+        {nfts.map((nft) => <NFTCard key={nft.nftId} item={nft} />)}
       </SimpleGrid>
       <Pagination 
         currentPage={currentPage} 

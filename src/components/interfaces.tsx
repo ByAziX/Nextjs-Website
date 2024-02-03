@@ -29,6 +29,13 @@ export interface CollectionEntity {
     timestampBurned: Date | null;
     timestampClosed: Date | null;
     timestampLimited: Date | null;
+    name: string;
+    description: string;
+    banner_image: string;
+    profile_image: string;
+    bannerUrl: string;
+    profileUrl: string;
+
 
   }
   
@@ -48,6 +55,13 @@ export interface NFTResponse {
     nftEntities: {
       totalCount: number;
       nodes: NFTEntity[];
+    };
+  }
+
+export interface CollectionResponse {
+  collectionEntities: {
+      totalCount: number;
+      nodes: CollectionEntity[];
     };
   }
 
@@ -87,7 +101,7 @@ export interface NFTEntity {
     timestampSecretAdded: Date | null;
     timestampConvertedToCapsule: Date | null;
     metadata?: metadata;
-    mediaUrl: string;
+    mediaUrl: string | null;
   }
   
 
@@ -96,5 +110,18 @@ export interface NFTListProps {
     totalCount: number;
     currentPage: number;
   }
+
+export interface CollectionListProps {
+    collections: CollectionEntity[];
+    totalCount: number;
+    currentPage: number;
+  }
+
+export interface IndexPageProps {
+    nfts: NFTEntity[];
+    last_nft: NFTEntity;
+    collections: CollectionEntity[];
+  }
+
 
   
