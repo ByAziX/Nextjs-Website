@@ -3,8 +3,8 @@ import { GetServerSideProps } from 'next';
 import { Box, Spinner, Flex, useColorModeValue } from '@chakra-ui/react';
 
 import { getLastListedNFTs } from '../../services/nftService';
-import NFTList from '../../components/NFTList';
-import { NFTListProps } from '../../components/interfaces';
+import NFTList from '../../components/explore/NFTList';
+import { NFTListProps } from '../../interfaces/interfaces';
 
 const DEFAULT_LIMIT = 24;
 

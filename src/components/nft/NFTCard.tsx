@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Box, Image, Text, Skeleton, VStack, useColorModeValue, Tooltip, Link, Badge } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import { NFTEntity } from './interfaces';
+import { NFTEntity } from '../../interfaces/interfaces';
 import { motion } from 'framer-motion';
 
 const MotionBox = motion(Box);

@@ -10,15 +10,15 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import dynamic from 'next/dynamic';
-import { CollectionEntity, NFTEntity } from '../components/interfaces';
-import Carousel from '../components/Carousel';
+import { CollectionEntity, NFTEntity } from '../interfaces/interfaces';
+import Carousel from '../components/index/Carousel';
 
 
 // Chargement dynamique des composants
-const FAQSection = dynamic(() => import('../components/FAQSection'));
-const SiteTools = dynamic(() => import('../components/SiteTools'));
-const CollectionCard = dynamic(() => import('../components/CollectionCard'));
-const NFTCard = dynamic(() => import('../components/NFTCard'));
+const FAQSection = dynamic(() => import('../components/index/FAQSection'));
+const SiteTools = dynamic(() => import('../components/index/SiteTools'));
+const CollectionCard = dynamic(() => import('../components/collection/CollectionCard'));
+const NFTCard = dynamic(() => import('../components/nft/NFTCard'));
 
 
 const IndexPage = () => {

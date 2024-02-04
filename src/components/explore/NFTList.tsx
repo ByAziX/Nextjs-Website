@@ -1,19 +1,12 @@
 // components/NFTList.tsx
 import React from 'react';
 import { SimpleGrid, VStack, Heading } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 
-import Pagination from './Pagination';
-import NFTCard from './NFTCard';
-import {NFTListProps} from './interfaces'
+import NFTCard from '../nft/NFTCard';
+import {NFTListProps} from '../../interfaces/interfaces'
 import SortFilterNFT from './SortFilterNFT';
 
-
-
-const DEFAULT_LIMIT = 24;
-
 const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount,sortBy }) => {
-  const router = useRouter();
 
   return (
     <VStack spacing={5} my="10">

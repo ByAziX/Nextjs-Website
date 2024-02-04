@@ -2,8 +2,7 @@ import React from 'react';
 import {
   Box, Image, Text, useColorModeValue, Badge, VStack, HStack, AspectRatio, Tooltip, Link
 } from '@chakra-ui/react';
-import { CollectionEntity } from './interfaces';
-import NextLink from 'next/link';
+import { CollectionEntity } from '../../interfaces/interfaces';
 import { motion } from 'framer-motion'; // Importez framer-motion
 
 const MotionBox = motion(Box);

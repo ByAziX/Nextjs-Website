@@ -9,7 +9,6 @@ import NextLink from 'next/link';
 import { FaBoxOpen } from 'react-icons/fa';
 import {PiAddressBookBold} from 'react-icons/pi';
 import { IoBookSharp } from "react-icons/io5";
-
 import SearchBar from './SearchBar';
 
 const Connect = dynamic(() => import('./Connect').then(m => m.Connect), {

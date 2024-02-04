@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Box, Spinner, Flex, useColorModeValue } from '@chakra-ui/react';
 
 import { getCollections } from '../../services/collectionService';
-import CollectionList from '../../components/CollectionList';
-import { CollectionListProps } from '../../components/interfaces';
+import CollectionList from '../../components/explore/CollectionList';
+import { CollectionListProps } from '../../interfaces/interfaces';
 import { GetServerSideProps } from 'next';
 
 

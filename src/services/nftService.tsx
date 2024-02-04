@@ -2,7 +2,7 @@
 import { request, gql } from 'graphql-request';
 import { TernoaIPFS } from 'ternoa-js';
 import cache from './redisClient'; // Utilisez le client de cache amélioré
-import { CollectionEntity, CollectionResponse, NFTEntity, NFTResponse } from '../components/interfaces';
+import { CollectionEntity, CollectionResponse, NFTEntity, NFTResponse } from '../interfaces/interfaces';
 
 // Initialisez le client IPFS avec vos paramètres d'environnement
 const ipfsClient = new TernoaIPFS(new URL(process.env.IPFS_GATEWAY!), process.env.IPFS_API_KEY);

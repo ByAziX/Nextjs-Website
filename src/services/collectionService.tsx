@@ -2,7 +2,7 @@
 import { request, gql } from 'graphql-request';
 import { TernoaIPFS } from 'ternoa-js';
 import cache from './redisClient'; 
-import { CollectionEntity, CollectionResponse } from '../components/interfaces';
+import { CollectionEntity, CollectionResponse } from '../interfaces/interfaces';
 
 const ipfsClient = new TernoaIPFS(new URL(process.env.IPFS_GATEWAY!), process.env.IPFS_API_KEY);
 

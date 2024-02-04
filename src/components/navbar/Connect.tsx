@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react';
 import { CopyIcon, CloseIcon } from '@chakra-ui/icons';
 import NextLink from 'next/link';
-import WalletModal from '../modals/WalletModal';
+import WalletModal from '../../modals/WalletModal';
 import { FaWallet } from 'react-icons/fa';
 
 type TExtensionState = {

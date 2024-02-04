@@ -1,7 +1,7 @@
 import React from 'react';
 import { SimpleGrid, Box, Heading } from '@chakra-ui/react';
-import ToolFeature from './ToolFeature';
 import { FaChartLine, FaCoins, FaUserShield } from 'react-icons/fa';
+import ToolFeature from './ToolFeature';
 
 const SiteTools = () => (
   <Box py={10}>
