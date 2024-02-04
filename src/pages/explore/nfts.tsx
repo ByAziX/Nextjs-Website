@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, use } from 'react';
 import { GetServerSideProps } from 'next';
 import { Box, Spinner, Flex, useColorModeValue } from '@chakra-ui/react';
 
@@ -15,7 +15,11 @@ const ExplorePage: React.FC<NFTListProps> = ({ nfts, totalCount, sortBy }) => {
   const sentinel = useRef<HTMLDivElement | null>(null);
   const inputFocusBorderColor = useColorModeValue('purple.500', 'purple.200');
 
-
+  useEffect(() => {
+    setLoadedNfts([]);
+    setOffset(0);
+  }, [sortBy]);
+  
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -39,7 +43,7 @@ const ExplorePage: React.FC<NFTListProps> = ({ nfts, totalCount, sortBy }) => {
     }
 
     return () => observer.disconnect();
-  }, [offset, sortBy, totalCount, loadedNfts.length, isLoading]);
+  }, [offset, totalCount, loadedNfts.length, isLoading]);
 
   return (
     <Box>
