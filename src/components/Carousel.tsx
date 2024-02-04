@@ -46,7 +46,30 @@ const Carousel = ({ items, CardComponent }) => {
         zIndex={2}
         bg="transparent"
       />
-      <Box ref={scrollRef} display="flex" overflowX="auto" w="full">
+      <Box
+        ref={scrollRef}
+        display="flex"
+        overflowX="auto"
+        w="full"
+        p={2}
+        scrollBehavior="smooth"
+        sx={{
+          '&::-webkit-scrollbar': {
+            height: '8px',
+            backgroundColor: 'rgba(0, 0, 0, 0.05)',
+          },
+          '&::-webkit-scrollbar-track': {
+            borderRadius: '10px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            borderRadius: '10px',
+            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            '&:hover': {
+              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            },
+          },
+        }}
+      >
         {items.map((item, index) => (
           <Box key={index} p="4">
             <CardComponent item={item} />
