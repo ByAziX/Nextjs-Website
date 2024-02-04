@@ -12,13 +12,14 @@ import {
 import dynamic from 'next/dynamic';
 import { CollectionEntity, NFTEntity } from '../components/interfaces';
 import Carousel from '../components/Carousel';
-import CollectionCard from '../components/CollectionCard';
-import NFTCard from '../components/NFTCard';
 
 
 // Chargement dynamique des composants
 const FAQSection = dynamic(() => import('../components/FAQSection'));
 const SiteTools = dynamic(() => import('../components/SiteTools'));
+const CollectionCard = dynamic(() => import('../components/CollectionCard'));
+const NFTCard = dynamic(() => import('../components/NFTCard'));
+
 
 const IndexPage = () => {
   const bgGradient = useColorModeValue('linear(to-l, #7928CA, #9A4DFF)', 'linear(to-l, #9A4DFF, #D6A4FF)');
@@ -76,8 +77,8 @@ const IndexPage = () => {
             <NFTCard
               key={lastNft.nftId}
               item={lastNft}
-              width={"500px"}
-              height={"650px"}
+              width={"auto"}
+              height={"auto"}
             />
           </Box>
         )}
