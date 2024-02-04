@@ -6,10 +6,10 @@ import NFTList from '../../components/NFTList';
 import {NFTListProps } from '../../components/interfaces'
 
 
-const ProfilePage: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage,sortBy }) => {
+const ProfilePage: React.FC<NFTListProps> = ({ nfts, totalCount,sortBy }) => {
   return (
     <div>
-      <NFTList nfts={nfts} totalCount={totalCount} currentPage={currentPage} sortBy={sortBy} />
+      <NFTList nfts={nfts} totalCount={totalCount}  sortBy={sortBy} />
     </div>
   );
 };
@@ -30,7 +30,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {
         nfts,
         totalCount,
-        currentPage: page,
         sortBy,
       },
     };
@@ -40,8 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {
         nfts: [],
         totalCount: 0,
-        currentPage: page,
-      },
+        sortBy,},
     };
   }
 };

@@ -7,7 +7,7 @@ const SortFilterNFT: React.FC<{ value: string }> = ({ value }) => {
     const handleChange = (newValue: string) => {
         router.push({
             pathname: router.pathname,
-            query: { ...router.query, NFTSort: newValue, page: 1 }, // Réinitialiser à la page 1 lors du changement de tri
+            query: { ...router.query, NFTSort: newValue }, 
         });
     };
 

@@ -12,7 +12,7 @@ import SortFilterNFT from './SortFilterNFT';
 
 const DEFAULT_LIMIT = 24;
 
-const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage,sortBy }) => {
+const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount,sortBy }) => {
   const router = useRouter();
   const totalPages = Math.ceil(totalCount / DEFAULT_LIMIT);
 
@@ -33,11 +33,7 @@ const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage,sortBy 
       <SimpleGrid columns={{ base: 2, md: 6 }} spacing="4">
         {nfts.map((nft) => <NFTCard key={nft.nftId} item={nft} />)}
       </SimpleGrid>
-      <Pagination 
-        currentPage={currentPage} 
-        totalPages={totalPages} 
-        onPageChange={handlePageChange} 
-      />
+
     </VStack>
   );
 };

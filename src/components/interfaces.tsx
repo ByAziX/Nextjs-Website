@@ -108,7 +108,6 @@ export interface NFTEntity {
 export interface NFTListProps {
     nfts: NFTEntity[];
     totalCount: number;
-    currentPage: number;
     sortBy : string;
   }
 
