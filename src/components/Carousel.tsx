@@ -5,7 +5,6 @@ import { Box, IconButton, Flex } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 const Carousel = ({ items, CardComponent }) => {
-  console.log(items);
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(items.length > 6);

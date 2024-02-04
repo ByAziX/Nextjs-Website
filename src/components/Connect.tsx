@@ -96,7 +96,9 @@ export const Connect = () => {
     <VStack spacing={4}>
       {state.data ? (
         <HStack spacing={4}>
-          <Avatar name={beautifyAddress(state.data.defaultAccount.address)} />
+          <NextLink href={`/profile/${state.data.defaultAccount.address}`} passHref>
+            <Avatar name={beautifyAddress(state.data.defaultAccount.address)} />
+          </NextLink>
           <VStack align="start">
             <Text fontSize="lg">Hello, {beautifyAddress(state.data.defaultAccount.address)}</Text>
             <Tooltip label={state.data.defaultAccount.address} aria-label="Full address">

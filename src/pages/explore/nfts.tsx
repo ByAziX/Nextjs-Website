@@ -2,9 +2,9 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
 
-import NFTList from '../components/NFTList';
-import { getLastListedNFTs } from '../services/nftService';
-import {NFTListProps} from '../components/interfaces'
+import NFTList from '../../components/NFTList';
+import { getLastListedNFTs } from '../../services/nftService';
+import {NFTListProps} from '../../components/interfaces'
 
 const DEFAULT_LIMIT = 24; 
 

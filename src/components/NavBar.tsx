@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-  Flex, Box, Text, Button, Spacer, useColorModeValue, IconButton, useDisclosure, Center, Image, Input
+  Flex, Box, Text, Button, Spacer, useColorModeValue, IconButton, useDisclosure, Center, Image, Input, Menu, MenuList, MenuButton, MenuItem
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { DarkModeSwitch } from './DarkModeSwitch';
 import dynamic from 'next/dynamic';
 import NextLink from 'next/link';
@@ -37,7 +37,7 @@ const NavBar: React.FC = () => {
       <Flex align="center">
         <NextLink href="/" passHref>
           <Flex align="center" cursor="pointer">
-            <Image src="./nft-marketplace-background.webp" alt="Logo" boxSize="30px" mr="3" />
+            <Image src="/nft-marketplace-background.webp" alt="Logo" boxSize="30px" mr="3" />
             <Text fontSize="xl" fontWeight="bold" mr="5">
               NFT Marketplace
             </Text>
@@ -79,9 +79,20 @@ const NavBar: React.FC = () => {
         pt={[4, 4, 0, 0]}
         gap={4}
       >
-        <NextLink href="/explore" passHref>
-          <Button leftIcon={<FaBoxOpen />} bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>Explore</Button>
-        </NextLink>
+        <Menu>
+          <MenuButton as={Button} leftIcon={<FaBoxOpen />} rightIcon={<ChevronDownIcon />} bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>
+            Explore
+          </MenuButton>
+          <MenuList>
+            <NextLink href="/explore/nfts" passHref>
+              <MenuItem>Explore NFTs</MenuItem>
+            </NextLink>
+            <NextLink href="/explore/collections" passHref>
+              <MenuItem>Explore Collections</MenuItem>
+            </NextLink>
+          </MenuList>
+        </Menu>
+        
         <Button leftIcon={<PiAddressBookBold />}  bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>Create</Button>
         <Button leftIcon={<IoBookSharp />}  bg="transparent" _hover={{ bg: buttonHoverBg }} _active={{ bg: buttonActiveBg }}>My Collection</Button>
         <Connect />
