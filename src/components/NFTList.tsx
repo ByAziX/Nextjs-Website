@@ -14,15 +14,6 @@ const DEFAULT_LIMIT = 24;
 
 const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount,sortBy }) => {
   const router = useRouter();
-  const totalPages = Math.ceil(totalCount / DEFAULT_LIMIT);
-
-  const handlePageChange = (page: number) => {
-    const query = { ...router.query, page: page.toString() };
-    router.push({
-      pathname: router.pathname,
-      query,
-    });
-  };
 
   return (
     <VStack spacing={5} my="10">

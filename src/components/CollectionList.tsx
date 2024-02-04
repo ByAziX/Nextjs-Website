@@ -12,17 +12,9 @@ import CollectionCard from './CollectionCard';
 
 const DEFAULT_LIMIT = 24;
 
-const CollectionList: React.FC<CollectionListProps> = ({ collections,totalCount,currentPage }) => {
+const CollectionList: React.FC<CollectionListProps> = ({ collections,totalCount }) => {
   const router = useRouter();
-  const handlePageChange = (page: number) => {
-    const query = { ...router.query, page: page.toString() };
-    router.push({
-      pathname: router.pathname,
-      query,
-    });
-  };
-    const totalPages = Math.ceil(totalCount / DEFAULT_LIMIT);    
-
+  
   return (
     <VStack spacing={5} my="10">
       <Heading as="h2" size="xl">
@@ -31,11 +23,7 @@ const CollectionList: React.FC<CollectionListProps> = ({ collections,totalCount,
         <SimpleGrid columns={{ base: 1, md: 6 }} spacing="4">
             {collections.map((collection) => <CollectionCard key={collection.collectionId} item={collection} />)}
         </SimpleGrid>
-        <Pagination 
-            currentPage={currentPage} 
-            totalPages={totalPages} 
-            onPageChange={handlePageChange} 
-        />
+
     </VStack>
   );
 };

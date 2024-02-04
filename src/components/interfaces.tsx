@@ -114,7 +114,6 @@ export interface NFTListProps {
 export interface CollectionListProps {
     collections: CollectionEntity[];
     totalCount: number;
-    currentPage: number;
   }
 
 export interface IndexPageProps {
