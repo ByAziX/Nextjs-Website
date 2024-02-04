@@ -6,10 +6,10 @@ import NFTList from '../../components/NFTList';
 import {NFTListProps } from '../../components/interfaces'
 
 
-const ProfilePage: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) => {
+const ProfilePage: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage,sortBy }) => {
   return (
     <div>
-      <NFTList nfts={nfts} totalCount={totalCount} currentPage={currentPage} />
+      <NFTList nfts={nfts} totalCount={totalCount} currentPage={currentPage} sortBy={sortBy} />
     </div>
   );
 };
@@ -17,18 +17,21 @@ const ProfilePage: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query, params } = context;
   const page = parseInt(query.page as string) || 1;
+  const sortBy = context.query.NFTSort as string || 'TIMESTAMP_LISTED_DESC';
+
   const limit = 24; 
   const offset = (page - 1) * limit;
 
   try {
     const owner = params.profileid as string;
-    const { nfts, totalCount } = await getNFTfromOwner(owner, limit, offset);
+    const { nfts, totalCount } = await getNFTfromOwner(owner, limit, offset, sortBy);
 
     return {
       props: {
         nfts,
         totalCount,
         currentPage: page,
+        sortBy,
       },
     };
   } catch (error) {

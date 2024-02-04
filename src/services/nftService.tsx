@@ -85,7 +85,7 @@ export const getNftData = async (id: string): Promise<NFTEntity> => {
   }
 };
 // Récupère les NFTs appartenant à un propriétaire spécifique avec pagination
-export const getNFTfromOwner = async (owner: string, limit = 10, offset = 0): Promise<{ nfts: NFTEntity[], totalCount: number }> => {
+export const getNFTfromOwner = async (owner: string, limit = 10, offset = 0, sortBy = 'TIMESTAMP_CREATED_DESC'): Promise<{ nfts: NFTEntity[], totalCount: number }> => {
   const cacheKey = `ownerNFTs:${owner}:${limit}:${offset}`;
   const cachedData = await cache.get(cacheKey);
 
@@ -99,7 +99,7 @@ export const getNFTfromOwner = async (owner: string, limit = 10, offset = 0): Pr
         filter: { owner: { equalTo: $owner } }
         first: $first
         offset: $offset
-        orderBy: TIMESTAMP_CREATED_DESC
+        orderBy: ${sortBy}
       ) {
         totalCount
         nodes {

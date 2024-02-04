@@ -2,21 +2,34 @@
 import { useRouter } from 'next/router';
 
 const SortFilterNFT: React.FC<{ value: string }> = ({ value }) => {
-  const router = useRouter();
+    const router = useRouter();
 
-  const handleChange = (newValue: string) => {
-    router.push({
-      pathname: router.pathname,
-      query: { ...router.query, NFTSort: newValue, page: 1 }, // Réinitialiser à la page 1 lors du changement de tri
-    });
-  };
+    const handleChange = (newValue: string) => {
+        router.push({
+            pathname: router.pathname,
+            query: { ...router.query, NFTSort: newValue, page: 1 }, // Réinitialiser à la page 1 lors du changement de tri
+        });
+    };
 
-  return (
-    <select value={value} onChange={(e) => handleChange(e.target.value)}>
-      <option value="TIMESTAMP_LISTED_DESC">Plus récents</option>
-      <option value="TIMESTAMP_LISTED_ASC">Plus anciens</option>
-    </select>
-  );
+    return (
+        <select value={value} onChange={(e) => handleChange(e.target.value)}>
+            <option value="TIMESTAMP_CREATED_DESC">Most recent</option>
+            <option value="TIMESTAMP_CREATED_ASC">Oldest</option>
+
+            <option value="TIMESTAMP_LISTED_DESC">Recent listing</option>
+            <option value="TIMESTAMP_LISTED_ASC">oldest listing</option>
+            <option value="TIMESTAMP_LISTED_ASC">Cheapest</option>
+            <option value="TIMESTAMP_LISTED_ASC">Most expensive</option>
+            <option value="TIMESTAMP_LISTED_ASC">Most liked</option>
+            <option value="TIMESTAMP_LISTED_ASC">Lowest royalty</option>
+            <option value="TIMESTAMP_LISTED_ASC">Highest royalty</option>
+            <option value="TIMESTAMP_LISTED_ASC">Collection asc</option>
+            <option value="TIMESTAMP_LISTED_ASC">Collection desc</option>
+            <option value="TIMESTAMP_LISTED_ASC">recent rent contract</option>
+            <option value="TIMESTAMP_LISTED_ASC">oldest rent contract</option>
+
+        </select>
+    );
 };
 
 export default SortFilterNFT;
