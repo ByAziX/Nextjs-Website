@@ -6,12 +6,13 @@ import { useRouter } from 'next/router';
 import Pagination from './Pagination';
 import NFTCard from './NFTCard';
 import {NFTListProps} from './interfaces'
+import SortFilterNFT from './SortFilterNFT';
 
 
 
 const DEFAULT_LIMIT = 24;
 
-const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) => {
+const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage,sortBy }) => {
   const router = useRouter();
   const totalPages = Math.ceil(totalCount / DEFAULT_LIMIT);
 
@@ -28,6 +29,7 @@ const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage }) => {
       <Heading as="h2" size="xl">
     {`Explore ${totalCount} NFTs`}
   </Heading>
+  <SortFilterNFT sortBy={sortBy} />
       <SimpleGrid columns={{ base: 2, md: 6 }} spacing="4">
         {nfts.map((nft) => <NFTCard key={nft.nftId} item={nft} />)}
       </SimpleGrid>

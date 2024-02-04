@@ -11,12 +11,12 @@ import {
   Icon,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
 import FAQSection from '../components/FAQSection';
 import SiteTools from '../components/SiteTools';
 import { GetServerSideProps } from 'next';
-import { getCollections, getLastListedNFTs } from '../services/nftService';
-import { NFTEntity, IndexPageProps,CollectionEntity } from '../components/interfaces';
+import { getLastListedNFTs } from '../services/nftService';
+import { getCollections } from '../services/collectionService';
+import { NFTEntity, IndexPageProps } from '../components/interfaces';
 import NFTCard from '../components/NFTCard';
 import Carousel from '../components/Carousel';
 import CollectionCard from '../components/CollectionCard';

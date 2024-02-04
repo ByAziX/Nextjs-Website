@@ -1,7 +1,7 @@
 // pages/index.tsx
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import { getCollections } from '../../services/nftService';
+import { getCollections } from '../../services/collectionService';
 import CollectionList from '../../components/CollectionList';
 import { CollectionListProps } from '../../components/interfaces';
 
