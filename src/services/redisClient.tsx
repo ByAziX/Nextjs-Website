@@ -16,19 +16,20 @@ class MemoryCache {
   }
 }
 
-
+/*
 const redisClient: RedisClientType = createClient({
   url: 'redis://localhost:6380'
 });
+*/
 
-/*
+
 const redisClient: RedisClientType = createClient({
   password: process.env.REDIS_PASSWORD,
   socket: {
       host: process.env.REDIS_HOST,
       port: 14911
   }
-});*/
+});
 
 const memoryCache = new MemoryCache();
 
