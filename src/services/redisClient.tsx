@@ -16,6 +16,7 @@ class MemoryCache {
   }
 }
 
+
 const redisClient: RedisClientType = createClient({
   url: 'redis://localhost:6380'
 });
