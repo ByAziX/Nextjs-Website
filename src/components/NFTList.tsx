@@ -29,7 +29,7 @@ const NFTList: React.FC<NFTListProps> = ({ nfts, totalCount, currentPage,sortBy 
       <Heading as="h2" size="xl">
     {`Explore ${totalCount} NFTs`}
   </Heading>
-  <SortFilterNFT sortBy={sortBy} />
+  <SortFilterNFT value={sortBy} />
       <SimpleGrid columns={{ base: 2, md: 6 }} spacing="4">
         {nfts.map((nft) => <NFTCard key={nft.nftId} item={nft} />)}
       </SimpleGrid>
