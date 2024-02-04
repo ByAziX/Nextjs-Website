@@ -55,7 +55,6 @@ const NFTCard: React.FC<{ item: NFTEntity; width?: string | number; height?: str
           onLoad={handleImageLoaded}
           onError={handleImageError}
           style={{ display: isLoading ? 'none' : 'block', width: '100%', height: '100%', objectFit: 'contain' }}
-          loading="lazy"
         />
       </Box>
       <VStack p="2" align="left" spacing={1}>

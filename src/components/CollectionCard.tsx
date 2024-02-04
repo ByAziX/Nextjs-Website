@@ -51,8 +51,6 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
           alt={`Banner for collection ${item?.collectionId || 'unknown'}`}
           fallbackSrc='https://via.placeholder.com/100'
           objectFit="contain"
-          loading="lazy"
-
         />
       </AspectRatio>
       <VStack p="2" align="left" spacing={1}>
@@ -63,8 +61,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
             src={item?.profileUrl || 'https://via.placeholder.com/50'}
             alt={`Logo for collection ${item?.collectionId}`}
             fallbackSrc='https://via.placeholder.com/50'
-            loading="lazy"
-          />
+            />
           <Text fontSize="lg" fontWeight="bold">
             {item.name}
           </Text>
