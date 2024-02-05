@@ -56,24 +56,25 @@ const CollectionDetailsPage: NextPage<CollectionDetailsPageProps> = ({ collectio
   }, [offset, totalCount, loadedNfts.length, isLoading]);
 
   return (
-    <Box padding={4}>
+    <Box>
       {/* Collection Banner */}
       {collection.bannerUrl && (
-        <Image src={collection.bannerUrl} alt={`${collection.name} banner`} mb={4} borderRadius="md" maxH="400px" w="full" objectFit="cover" />
+        <Image src={collection.bannerUrl} alt={`${collection.name} banner`} mb={4} borderRadius="md" maxH="400px" w="full" objectFit="contain" />
       )}
 
       <VStack spacing={4} align="stretch">
         {/* Collection Logo and Name, with responsive logo size */}
-        <Flex direction={{ base: 'column', md: 'row' }} align="center" mb={4}>
+        <Flex direction={{ base: 'column', md: 'row' }} padding={4} align="center" mb={4}>
           {collection.profileUrl && (
             // Responsive boxSize using array or object notation
-            <Image src={collection.profileUrl} alt={`${collection.name} logo`} boxSize={{ base: '100px', md: '150px' }} borderRadius="full" border="4px solid white" mb={{ base: 4, md: 0 }} mr={{ md: 4 }} />
+            <Image src={collection.profileUrl} alt={`${collection.name} logo`} boxSize={{ base: '100px', md: '150px' }}  borderRadius="full" objectFit="contain" border="4px solid white" mb={{ base: 4, md: 0 }} mr={{ md: 4 }} />
           )}
           <VStack align={{ base: 'center', md: 'start' }} textAlign={{ base: 'center', md: 'left' }}>
             <Heading as="h1" size="xl" mt={4}>{collection.name}</Heading>
             <Text fontSize="lg">{collection.description}</Text>
           </VStack>
         </Flex>
+        </VStack>
 
         {/* NFT List */}
         <NFTList nfts={loadedNfts} totalCount={totalCount} sortBy={sortBy} />
@@ -83,8 +84,8 @@ const CollectionDetailsPage: NextPage<CollectionDetailsPageProps> = ({ collectio
           </Flex>
         )}
         <Box ref={sentinel} h="20px" my="20px" />
-      </VStack>
-    </Box>
+        </Box>
+
   );
 };
 
