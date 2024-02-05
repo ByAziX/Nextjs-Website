@@ -88,4 +88,56 @@ export const getCollections = async (limit = 10, offset = 0): Promise<{ collecti
       throw new Error('Error fetching NFT collections');
     }
   };
+
+
+export const getCollectionFromID = async (collectionID: string): Promise<{ collection: CollectionEntity}> => {
+    const cacheKey = `collections:${collectionID}`;
+    const cachedData = await cache.get(cacheKey);
   
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
+  
+    const gqlQuery = gql`
+      query GetCollections($collectionID: String!) {
+        collectionEntities(filter: { id: { equalTo: $collectionID } }) {
+          totalCount
+          nodes {
+            collectionId
+            owner
+            offchainData
+            nfts
+            nbNfts
+            hasReachedLimit
+            isClosed
+            timestampCreated
+            timestampBurned
+            timestampClosed
+            timestampLimited
+          }
+        }
+      }
+    `;
+  
+    try {
+      const response = await request<CollectionResponse>(process.env.GRAPHQL_ENDPOINT!, gqlQuery, {
+        collectionID
+      });
+  
+      if (response.collectionEntities.nodes.length > 0) {
+        // Assuming only one collection is returned for a given ID
+        const collection = response.collectionEntities.nodes[0];
+        const { metadata, bannerUrl, profileUrl } = await fetchIPFSMetadataCollection(collection.offchainData);
+        
+        const enrichedCollection = { ...collection, ...metadata, bannerUrl, profileUrl };
+  
+        await cache.set(cacheKey, JSON.stringify({ collection: enrichedCollection }), 10);
+        return { collection: enrichedCollection };
+      }
+  
+      throw new Error('Collection not found');
+    } catch (error) {
+      console.error("Error fetching collection details:", error);
+      throw error; // Re-throw the error or handle it as needed
+    }
+  };

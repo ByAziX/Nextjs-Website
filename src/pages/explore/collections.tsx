@@ -17,6 +17,8 @@ const ExploreCollectionsPage: React.FC<CollectionListProps> = ({ collections, to
   const sentinel = useRef<HTMLDivElement | null>(null);
   const spinnerColor = useColorModeValue('purple.500', 'purple.200');
 
+  
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {

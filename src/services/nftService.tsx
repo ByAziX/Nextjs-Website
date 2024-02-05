@@ -190,3 +190,60 @@ export const getLastListedNFTs = async (limit = 10, offset = 0,sortBy = 'TIMESTA
     throw new Error('Error fetching NFTs');
   }
 };
+
+
+// Récupère les NFTs appartenant à un propriétaire spécifique avec pagination
+export const getNFTfromCollection = async (collectionid: string, limit = 10, offset = 0, sortBy = 'PRICE_ROUNDED_ASC'): Promise<{ nfts: NFTEntity[], totalCount: number }> => {
+  const cacheKey = `collectionNFTs:${collectionid}:${limit}:${offset}:${sortBy}`;
+  const cachedData = await cache.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
+  const gqlQuery = gql`
+    query GetNFTsFromOwner($collectionid: String!, $first: Int!, $offset: Int!) {
+      nftEntities(
+        filter: { collectionId: { equalTo: $collectionid }}
+        first: $first
+        offset: $offset
+        orderBy: ${sortBy}
+      ) {
+        totalCount
+        nodes {
+          nftId
+          owner
+          creator
+          collectionId
+          offchainData
+          priceRounded
+          typeOfListing
+          isListed
+          collection {
+            collectionId
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await request<NFTResponse>(process.env.GRAPHQL_ENDPOINT!, gqlQuery, {
+      collectionid,
+      first: limit,
+      offset
+    });
+
+    const nfts = await Promise.all(response.nftEntities.nodes.map(async (nft) => {
+      const { metadata, mediaUrl } = await fetchIPFSMetadata(nft.offchainData);
+      return { ...nft, metadata, mediaUrl };
+    }));
+
+    await cache.set(cacheKey, JSON.stringify({ nfts, totalCount: response.nftEntities.totalCount }), 3600); // Cache pour 1 heure
+
+    return { nfts, totalCount: response.nftEntities.totalCount };
+  } catch (error) {
+    console.error('Error fetching NFTs from owner:', error);
+    throw new Error('Error fetching NFTs from owner');
+  }
+};

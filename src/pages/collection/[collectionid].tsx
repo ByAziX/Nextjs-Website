@@ -1,72 +1,112 @@
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { Box, Text, VStack, Image, useColorModeValue, Link, HStack, Badge } from '@chakra-ui/react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Box, Flex, Text, Image, Spinner, SimpleGrid, VStack, useColorModeValue, HStack, Link, Heading, useBreakpointValue } from '@chakra-ui/react';
+import { GetServerSideProps, NextPage } from 'next';
+import { getCollectionFromID } from '../../services/collectionService';
+import { getNFTfromCollection } from '../../services/nftService';
+import { CollectionEntity, NFTEntity } from '../../interfaces/interfaces';
+import NFTList from '../../components/explore/NFTList';
 
-const CollectionDetailsPage = () => {
-  const router = useRouter();
-  const { collectionID } = router.query;
-  const [collection, setCollection] = useState(null);
-  const bgColor = useColorModeValue('white', 'gray.800');
-  const textColor = useColorModeValue('gray.800', 'white');
+interface CollectionDetailsPageProps {
+  collection: CollectionEntity;
+  collectionid: string;
+  nfts: NFTEntity[];
+  totalCount: number;
+  sortBy: string;
+}
+
+const DEFAULT_LIMIT = 24;
+
+const CollectionDetailsPage: NextPage<CollectionDetailsPageProps> = ({ collection, collectionid, nfts, totalCount, sortBy }) => {
+  const [loadedNfts, setLoadedNfts] = useState(nfts);
+  const [offset, setOffset] = useState(DEFAULT_LIMIT);
+  const [isLoading, setIsLoading] = useState(false);
+  const sentinel = useRef<HTMLDivElement | null>(null);
+  const inputFocusBorderColor = useColorModeValue('purple.500', 'purple.200');
+  const logoSize = useBreakpointValue({ base: '50px', md: '150px' });
+
 
   useEffect(() => {
-      // Simuler l'appel API
-      setCollection({
-        name: 'Nom de la Collection',
-        description: 'Description de la collection...',
-        bannerUrl: 'https://via.placeholder.com/500',
-        logoUrl: 'https://via.placeholder.com/100',
-        nbNfts: 120, // Nombre de NFTs dans la collection
-        isClosed: true, // État de la collection
-        owner: 'Propriétaire de la Collection',
-        social: {
-          facebook: 'https://facebook.com',
-          twitter: 'https://twitter.com',
-          discord: 'https://discord.com',
-        },
-        nfts: [
-          // Liste des NFTs, simulée pour cet exemple
-          { name: 'NFT #1', imageUrl: 'https://via.placeholder.com/150' },
-          { name: 'NFT #2', imageUrl: 'https://via.placeholder.com/150' },
-          // Ajouter plus si nécessaire
-        ],
-      });
+    setLoadedNfts([]);
+    setOffset(0);
+  }, [sortBy]);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && loadedNfts.length < totalCount && !isLoading) {
+          setIsLoading(true);
+          fetch(`/api/collection-nfts/${collectionid}?limit=${DEFAULT_LIMIT}&offset=${offset}&sortBy=${sortBy}`)
+            .then((res) => res.json())
+            .then((data) => {
+              setLoadedNfts((prev) => [...prev, ...data.nfts]);
+              setOffset((prevOffset) => prevOffset + DEFAULT_LIMIT);
+            })
+            .catch((err) => console.error("Error loading more NFTs:", err))
+            .finally(() => setIsLoading(false));
+        }
+      },
+      { rootMargin: '100px' }
+    );
+
+    if (sentinel.current) {
+      observer.observe(sentinel.current);
     }
-  , [collectionID]);
 
-
+    return () => observer.disconnect();
+  }, [offset, totalCount, loadedNfts.length, isLoading]);
 
   return (
-    <Box bg={bgColor} color={textColor} p={5}>
-      <VStack spacing={4} align="stretch">
-        <HStack justify="space-between">
-          <Text fontSize="2xl" fontWeight="bold">{collection?.name}</Text>
-          <Badge colorScheme={collection?.isClosed ? "red" : "green"}>
-            {collection?.isClosed ? 'Fermée' : 'Ouverte'}
-          </Badge>
-        </HStack>
-        <Image src={collection?.bannerUrl} alt={`Bannière de ${collection?.name}`} />
-        <Image src={collection?.logoUrl} alt={`Logo de ${collection?.name}`} boxSize="100px" alignSelf="center" />
-        <Text>{collection?.description}</Text>
-        <Text>Nombre de NFTs: {collection?.nbNfts}</Text>
-        <Text>Propriétaire: {collection?.owner}</Text>
-        <HStack>
-  {collection?.social?.facebook && <Link href={collection?.social?.facebook} isExternal>Facebook</Link>}
-  {collection?.social?.twitter && <Link href={collection?.social?.twitter} isExternal>Twitter</Link>}
-  {collection?.social?.discord && <Link href={collection?.social?.discord} isExternal>Discord</Link>}
-</HStack>
+    <Box padding={4}>
+      {/* Collection Banner */}
+      {collection.bannerUrl && (
+        <Image src={collection.bannerUrl} alt={`${collection.name} banner`} mb={4} borderRadius="md" maxH="400px" w="full" objectFit="cover" />
+      )}
 
-        <VStack>
-          {collection?.nfts?.map((nft, index) => (
-            <Box key={index} p={3} shadow="md" borderWidth="1px" borderRadius="lg" overflow="hidden">
-              <Image src={nft.imageUrl} alt={nft.name} />
-              <Text mt={2}>{nft.name}</Text>
-            </Box>
-          ))}
-        </VStack>
+      <VStack spacing={4} align="stretch">
+        {/* Collection Logo and Name, with responsive logo size */}
+        <Flex direction={{ base: 'column', md: 'row' }} align="center" mb={4}>
+          {collection.profileUrl && (
+            // Responsive boxSize using array or object notation
+            <Image src={collection.profileUrl} alt={`${collection.name} logo`} boxSize={{ base: '100px', md: '150px' }} borderRadius="full" border="4px solid white" mb={{ base: 4, md: 0 }} mr={{ md: 4 }} />
+          )}
+          <VStack align={{ base: 'center', md: 'start' }} textAlign={{ base: 'center', md: 'left' }}>
+            <Heading as="h1" size="xl" mt={4}>{collection.name}</Heading>
+            <Text fontSize="lg">{collection.description}</Text>
+          </VStack>
+        </Flex>
+
+        {/* NFT List */}
+        <NFTList nfts={loadedNfts} totalCount={totalCount} sortBy={sortBy} />
+        {isLoading && (
+          <Flex justify="center" align="center" my="20px">
+            <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color={inputFocusBorderColor} size="xl" />
+          </Flex>
+        )}
+        <Box ref={sentinel} h="20px" my="20px" />
       </VStack>
     </Box>
   );
+};
+
+
+
+export const getServerSideProps: GetServerSideProps<CollectionDetailsPageProps> = async (context) => {
+  const { params, query } = context;
+  const collectionId = params?.collectionid as string;
+  const sortBy = query.NFTSort as string || 'PRICE_ROUNDED_ASC';
+
+  const { collection } = await getCollectionFromID(collectionId);
+  const { nfts, totalCount } = await getNFTfromCollection(collectionId, DEFAULT_LIMIT, 0, sortBy);
+
+  return {
+    props: {
+      collection,
+      collectionid: collectionId,
+      nfts,
+      totalCount,
+      sortBy,
+    },
+  };
 };
 
 export default CollectionDetailsPage;

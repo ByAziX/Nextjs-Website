@@ -122,5 +122,13 @@ export interface IndexPageProps {
     collections: CollectionEntity[];
   }
 
+  export interface CollectionPageProps {
+    collection: CollectionEntity;
+    totalCount: number;
+    nfts: NFTEntity[];
+
+  }
+
+
 
   

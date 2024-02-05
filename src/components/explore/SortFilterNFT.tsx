@@ -15,11 +15,10 @@ const SortFilterNFT: React.FC<{ value: string }> = ({ value }) => {
         <select value={value} onChange={(e) => handleChange(e.target.value)}>
             <option value="TIMESTAMP_CREATED_DESC">Most recent</option>
             <option value="TIMESTAMP_CREATED_ASC">Oldest</option>
-
             <option value="TIMESTAMP_LISTED_DESC">Recent listing</option>
             <option value="TIMESTAMP_LISTED_ASC">oldest listing</option>
-            <option value="TIMESTAMP_LISTED_ASC">Cheapest</option>
-            <option value="TIMESTAMP_LISTED_ASC">Most expensive</option>
+            <option value="PRICE_ROUNDED_ASC">Cheapest</option>
+            <option value="PRICE_ROUNDED_DESC">Most expensive</option>
             <option value="TIMESTAMP_LISTED_ASC">Most liked</option>
             <option value="TIMESTAMP_LISTED_ASC">Lowest royalty</option>
             <option value="TIMESTAMP_LISTED_ASC">Highest royalty</option>
